@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: remix
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm run start
