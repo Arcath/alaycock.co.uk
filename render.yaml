@@ -3,5 +3,5 @@ services:
     name: remix
     env: node
     plan: free
-    buildCommand: npm run build
+    buildCommand: npm install && npm run build
     startCommand: npm run start
