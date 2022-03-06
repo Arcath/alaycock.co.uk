@@ -5,7 +5,7 @@ module.exports = {
   appDirectory: 'app',
   browserBuildDirectory: 'public/build',
   publicPath: '/build/',
-  serverBuildDirectory: 'build',
+  serverBuildDirectory: 'netlify',
   devServerPort: 8002,
   serverDependenciesToBundle: [
     'remark-gfm',
