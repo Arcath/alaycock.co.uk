@@ -1,100 +1,88 @@
-import type { MetaFunction, LoaderFunction } from "remix";
-import { useLoaderData, json, Link } from "remix";
+import {useLoaderData} from 'remix'
+import type {MetaFunction, LoaderFunction} from 'remix'
+import type {TweetV2} from 'twitter-api-v2'
+import {nl2br} from '@arcath/utils/lib/functions/nl2br'
+import {formatDistance} from 'date-fns'
+import {motion} from 'framer-motion'
 
-type IndexData = {
-  resources: Array<{ name: string; url: string }>;
-  demos: Array<{ name: string; to: string }>;
-};
+import {pageTitle, getSiteData} from '../lib/utils'
 
-// Loaders provide data to components and are only ever called on the server, so
-// you can connect to a database or run any server side code you want right next
-// to the component that renders it.
-// https://remix.run/api/conventions#loader
-export let loader: LoaderFunction = () => {
-  let data: IndexData = {
-    resources: [
-      {
-        name: "Remix Docs",
-        url: "https://remix.run/docs"
-      },
-      {
-        name: "React Router Docs",
-        url: "https://reactrouter.com/docs"
-      },
-      {
-        name: "Remix Discord",
-        url: "https://discord.gg/VBePs6d"
-      }
-    ],
-    demos: [
-      {
-        to: "demos/actions",
-        name: "Actions"
-      },
-      {
-        to: "demos/about",
-        name: "Nested Routes, CSS loading/unloading"
-      },
-      {
-        to: "demos/params",
-        name: "URL Params and Error Boundaries"
-      }
-    ]
-  };
+import {getArticles} from '~/lib/api/articles.server'
+import {getTwitterClient} from '~/lib/api/twitter.server'
+import {getSection} from '~/lib/api/sections.server'
 
-  // https://remix.run/api/remix#json
-  return json(data);
-};
+import {prepareMDX} from '~/lib/mdx.server'
 
-// https://remix.run/api/conventions#meta
-export let meta: MetaFunction = () => {
+import {ButtonLink} from '~/lib/components/button'
+import {ArticleBlock} from '~/lib/components/article-block'
+import {MDXContent} from '~/lib/components/content'
+
+export const loader: LoaderFunction = async () => {
+  const articles = await getArticles({count: 3, skip: 0, featured: true})
+  const {title, subTitle} = getSiteData()
+
+  const intro = await getSection('intro')
+
+  const twitter = getTwitterClient()
+
+  const twitterUser = await twitter.v2.userByUsername('ArcathWhitefall')
+  const tweets = await twitter.v2.userTimeline(twitterUser.data.id, {
+    'tweet.fields': ['created_at'],
+    max_results: 6
+  })
+
+  const introCode = await prepareMDX({source: intro.body, bundlePath: '/'})
+
   return {
-    title: "Remix Starter",
-    description: "Welcome to remix!"
-  };
-};
+    articles,
+    title,
+    subTitle,
+    tweets: tweets.data.data,
+    intro,
+    introCode: introCode.code
+  }
+}
 
-// https://remix.run/guides/routing#index-routes
+export let meta: MetaFunction = () => {
+  const {subTitle} = getSiteData()
+
+  return {
+    title: pageTitle(subTitle)
+  }
+}
+
 export default function Index() {
-  let data = useLoaderData<IndexData>();
+  const {articles, title, tweets, subTitle, intro, introCode} = useLoaderData<{
+    articles: Awaited<ReturnType<typeof getArticles>>
+    intro: Awaited<ReturnType<typeof getSection>>
+    introCode: string
+    title: string
+    subTitle: string
+    tweets: TweetV2[]
+  }>()
 
   return (
-    <div className="remix__page">
-      <main>
-        <h2>Welcome to Remix!</h2>
-        <p>We're stoked that you're here. 🥳</p>
-        <p>
-          Feel free to take a look around the code to see how Remix does things,
-          it might be a bit different than what you’re used to. When you're
-          ready to dive deeper, we've got plenty of resources to get you
-          up-and-running quickly.
-        </p>
-        <p>
-          Check out all the demos in this starter, and then just delete the{" "}
-          <code>app/routes/demos</code> and <code>app/styles/demos</code>{" "}
-          folders when you're ready to turn this into your next project.
-        </p>
-      </main>
-      <aside>
-        <h2>Demos In This App</h2>
-        <ul>
-          {data.demos.map(demo => (
-            <li key={demo.to} className="remix__page__resource">
-              <Link to={demo.to} prefetch="intent">
-                {demo.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <h2>Resources</h2>
-        <ul>
-          {data.resources.map(resource => (
-            <li key={resource.url} className="remix__page__resource">
-              <a href={resource.url}>{resource.name}</a>
-            </li>
-          ))}
-        </ul>
-      </aside>
+    <div>
+      <div className="grid grid-cols-2 mt-8">
+        <div>
+          <div className="section">
+            <MDXContent source={introCode} />
+          </div>
+        </div>
+        <div>
+          <motion.img
+            className="rotate-5 shadow-xl"
+            src="/img/profile.jpg"
+            animate={{rotate: 5}}
+            transition={{duration: 1}}
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-4 mt-8">
+        {articles.map(article => {
+          return <ArticleBlock article={article} key={article.slug} />
+        })}
+      </div>
     </div>
-  );
+  )
 }

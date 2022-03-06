@@ -4,3 +4,106 @@
 /* purgecss end ignore */
 
 @tailwind utilities;
+
+body,
+html {
+  @apply min-h-screen;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-headings;
+}
+
+a {
+  transition: color 0.2s;
+}
+
+.prose {
+  @apply max-w-none;
+}
+
+.mdx-content h1,
+.mdx-content h2,
+.mdx-content h3,
+.mdx-content h4,
+.mdx-content h5,
+.mdx-content h6,
+.mdx-content p,
+.mdx-content ul,
+.mdx-content ol {
+  @apply col-start-3;
+}
+
+.mdx-content blockquote {
+  @apply col-start-2 col-span-3 border-brand-dark;
+}
+
+.mdx-content div.relative,
+.mdx-content table {
+  @apply col-start-2 col-span-3;
+}
+
+.mdx-content img {
+  @apply col-start-1;
+  @apply col-span-5;
+  @apply m-auto;
+}
+
+.top-line {
+  position: relative;
+}
+
+.top-line:before {
+  @apply shadow-sm;
+
+  content: '';
+  height: 2px;
+  transform: scaleY(0);
+  transition: transform 0.25s ease;
+  transform-origin: bottom;
+  left: 0;
+  top: 0;
+  width: 100%;
+  display: block;
+  position: absolute;
+}
+
+.top-line:hover:before,
+.top-line:focus:before,
+.active.top-line:before {
+  background-color: currentColor;
+  transform: scaleY(1);
+}
+
+.global-skew-d {
+  //transform: rotate(5deg);
+  width: 120vw;
+  position: absolute;
+  left: -10vw;
+  top: -10vh;
+}
+
+.global-skew-u {
+  transform: rotate(5deg);
+  width: 120vw;
+  position: absolute;
+  left: -20vw;
+  top: 0;
+}
+
+.section h1 {
+  @apply text-3xl mb-4;
+}
+
+.section h2 {
+  @apply text-2xl mb-2;
+}
+
+.section p {
+  @apply mb-2;
+}

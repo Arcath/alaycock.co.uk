@@ -1,4 +1,5 @@
 module.exports = {
+  content: ['./app/**/*.{ts,tsx,jsx,js}'],
   experimental: {
     darkModeVariant: true
   },
@@ -76,9 +77,10 @@ module.exports = {
         headings: ['Montserrat', 'Serif']
       },
       gridTemplateColumns: {
+        layout: 'minmax(150px, 10vw) 1fr',
         content:
           'minmax(0.6rem, 1fr) minmax(0.6rem, 1fr) minmax(auto, 60ch) minmax(0.6rem, 1fr) minmax(0.6rem, 1fr)',
-        header: 'minmax(0.6rem, 1fr) minmax(auto, 60ch) minmax(0.6rem, 1fr)'
+        layout: 'minmax(1.2rem, 1fr) minmax(auto, 75vw) minmax(1.2rem, 1fr)'
       },
       width: {
         dbl: '200vw'
@@ -88,10 +90,21 @@ module.exports = {
       },
       minHeight: {
         '1/4': '25vh',
-        '1/2': '50vh'
+        '1/2': '50vh',
+        hero: '50vh'
+      },
+      minWidth: {
+        hero: '50vw'
+      },
+      maxHeight: {
+        hero: '85vh'
+      },
+      maxWidth: {
+        hero: '95vw'
       },
       rotate: {
-        gl: '-25deg'
+        '2-5': '2.5deg',
+        5: '5deg'
       }
     }
   },
