@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@arcath/utils": "^1.9.1",
+    "@netlify/functions": "^1.0.0",
     "@remix-run/netlify": "^1.2.3",
     "@remix-run/react": "^1.2.2",
     "@remix-run/serve": "^1.2.2",
