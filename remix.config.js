@@ -5,7 +5,7 @@ module.exports = {
   appDirectory: 'app',
   browserBuildDirectory: 'public/build',
   publicPath: '/build/',
-  serverBuildDirectory: 'netlify',
+  serverBuildDirectory: 'netlify/functions/server/build',
   devServerPort: 8002,
   serverDependenciesToBundle: [
     'remark-gfm',
@@ -16,6 +16,6 @@ module.exports = {
     'decode-named-character-reference',
     'character-entities',
     'markdown-table'
-  ],
-  server: process.env.NODE_ENV === 'production' ? './server.js' : undefined
+  ]
+  //server: process.env.NODE_ENV === 'production' ? './server.js' : undefined
 }
