@@ -7,3 +7,4 @@ node_modules
 /public/build
 
 /content/posts/*-draft/
+/netlify

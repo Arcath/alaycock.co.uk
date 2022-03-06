@@ -16,6 +16,6 @@ module.exports = {
     'decode-named-character-reference',
     'character-entities',
     'markdown-table'
-  ]
-  //server: process.env.NODE_ENV === 'production' ? './server.js' : undefined
+  ],
+  server: process.env.NODE_ENV === 'production' ? './server.js' : undefined
 }
