@@ -48,7 +48,7 @@ COPY --from=production-deps /app/node_modules /app/node_modules
 
 COPY --from=build /app/build /app/build
 COPY --from=build /app/public /app/public
-RUN npm run install:fonts
 ADD . .
+RUN npm run install:fonts
 
 CMD ["npm", "run", "start"]
