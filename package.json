@@ -14,7 +14,7 @@
     "dev": "concurrently \"npm run dev:css\" \"npm run dev:remix\"",
     "postinstall": "remix setup node",
     "start": "cross-env NODE_ENV=production remix-serve build",
-    "install:fonts": "cp -r ./node_modules/@fontsource/montserrat/files/ ./public/build/_assets/files/"
+    "install:fonts": "mkdir -p cp -r ./node_modules/@fontsource/montserrat/files/ ./public/build/_assets/files/ && cp -r ./node_modules/@fontsource/montserrat/files/ ./public/build/_assets/files/"
   },
   "dependencies": {
     "@arcath/utils": "^1.10.0",
