@@ -13,7 +13,7 @@
     "dev:css": "tailwindcss -i ./styles/tailwind.css -o ./app/styles/tailwind.css --watch",
     "dev": "concurrently \"npm run dev:css\" \"npm run dev:remix\"",
     "postinstall": "remix setup node",
-    "start": "remix-serve build"
+    "start": "cross-env NODE_ENV=production remix-serve build"
   },
   "dependencies": {
     "@arcath/utils": "^1.10.0",
@@ -25,6 +25,7 @@
     "@tailwindcss/typography": "^0.5.2",
     "canvas": "^2.9.0",
     "copy-to-clipboard": "^3.3.1",
+    "cross-env": "^7.0.3",
     "date-fns": "^2.28.0",
     "esbuild": "^0.14.25",
     "fontsource-montserrat": "^4.0.0",
