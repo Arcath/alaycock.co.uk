@@ -5,8 +5,10 @@ node_modules
 /.cache
 /build
 /public/build
+/public/fonts
 
 /content/posts/*-draft/
 /netlify
 
 /app/styles/tailwind.css
+/app/styles/font-*.css

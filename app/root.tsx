@@ -16,7 +16,7 @@ import {motion} from 'framer-motion'
 import {getSiteData} from './lib/utils'
 
 import tailwindStyleUrl from './styles/tailwind.css'
-import montserrat from '@fontsource/montserrat/index.css'
+import montserrat from './styles/font-montserrat.css'
 
 export let links: LinksFunction = () => {
   return [

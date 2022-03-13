@@ -6,3 +6,18 @@ declare module 'fontsource-montserrat' {
 
   export default url
 }
+
+declare module 'copy-dir' {
+  export type CopyDirOptions = {
+    utimes: boolean
+    mode: boolean
+    cover: boolean
+    filter: boolean
+  }
+
+  export const sync: (
+    from: string,
+    to: string,
+    options?: Partial<CopyDirOptions>
+  ) => unknown
+}
