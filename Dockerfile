@@ -34,7 +34,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules /app/node_modules
 
 ADD . .
-RUN npm run install:fonts
 RUN npm run build
 
 # Finally, build the production image with minimal footprint
@@ -47,11 +46,9 @@ WORKDIR /app
 
 COPY --from=production-deps /app/node_modules /app/node_modules
 
-# Uncomment if using Prisma
-# COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
-
 COPY --from=build /app/build /app/build
 COPY --from=build /app/public /app/public
+RUN npm run install:fonts
 ADD . .
 
 CMD ["npm", "run", "start"]
