@@ -13,6 +13,8 @@ const main = async () => {
 
   await mkdirp(path.join(process.cwd(), 'public', 'fonts'))
 
+  await mkdirp(path.join(process.cwd(), 'app', 'styles'))
+
   asyncForEach(fonts, async font => {
     copydir.sync(
       path.join(process.cwd(), 'node_modules', '@fontsource', font, 'files'),
