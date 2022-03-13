@@ -16,10 +16,12 @@ import {motion} from 'framer-motion'
 import {getSiteData} from './lib/utils'
 
 import tailwindStyleUrl from './styles/tailwind.css'
+import montserrat from '@fontsource/montserrat/index.css'
 
 export let links: LinksFunction = () => {
   return [
     {rel: 'stylesheet', href: tailwindStyleUrl},
+    {rel: 'stylesheet', href: montserrat},
     {rel: 'icon', type: 'image/png', href: '/img/512.png'}
   ]
 }
