@@ -3,11 +3,6 @@
  */
 module.exports = {
   ignoredRouteFiles: ['.*'],
-  //appDirectory: 'app',
-  //browserBuildDirectory: 'public/build',
-  //publicPath: '/build/',
-  //serverBuildDirectory: 'netlify/functions',
-  //devServerPort: 8002,
   serverDependenciesToBundle: [
     'remark-gfm',
     /micromark-.*/,
