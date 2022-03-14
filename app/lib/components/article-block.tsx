@@ -18,7 +18,7 @@ export const ArticleBlock: React.FC<{
   return (
     <div key={article.slug} className="mb-6 relative">
       <div className="bg-fixed bg-gradient-to-b from-brand-dark to-brand-light h-24 z-0 relative rotate-2-5 p-2">
-        <div className="bg-white w-full h-full" />
+        <div className="bg-white dark:bg-black w-full h-full" />
       </div>
       <Link
         to={`/${year}/${month}/${article.slug}`}

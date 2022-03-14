@@ -129,7 +129,7 @@ function Layout({children}: React.PropsWithChildren<{}>) {
                 }}
                 className="float-right"
               >
-                <div className="rounded-full border-2 border-white w-10 h-10 mt-6 mr-2 relative">
+                <div className="rounded-full border-2 border-white w-10 h-10 mt-6 mr-2 relative overflow-hidden">
                   <span
                     className="absolute inset-0 rotate-90 transform text-black transition duration-1000 motion-reduce:duration-[0s] dark:rotate-0 dark:text-white"
                     style={iconTransformOrigin}
@@ -150,7 +150,7 @@ function Layout({children}: React.PropsWithChildren<{}>) {
                     </svg>
                   </span>
                   <span
-                    className="absolute inset-0 rotate-0 transform text-black transition duration-1000 motion-reduce:duration-[0s] dark:-rotate-90 dark:text-white"
+                    className="absolute inset-0 rotate-0 transform text-yellow-400 transition duration-1000 motion-reduce:duration-[0s] dark:-rotate-90 dark:text-white"
                     style={iconTransformOrigin}
                   >
                     <svg

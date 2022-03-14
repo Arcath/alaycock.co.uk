@@ -33,7 +33,7 @@ const Page = () => {
     useLoaderData<{page: Awaited<ReturnType<typeof getPage>>; code: string}>()
 
   return (
-    <div className="grid grid-cols-content prose mdx-content">
+    <div className="grid grid-cols-content prose dark:prose-dark mdx-content">
       <h1>{page!.title}</h1>
 
       <MDXContent source={code} />

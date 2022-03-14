@@ -10,6 +10,10 @@ html {
   @apply min-h-screen;
 }
 
+body {
+  @apply font-sans;
+}
+
 h1,
 h2,
 h3,
@@ -106,4 +110,11 @@ a {
 
 .section p {
   @apply mb-2;
+}
+
+.prose code::before,
+.prose code::after,
+.prose blockquote p:first-of-type::before,
+.prose blockquote p:last-of-type::before {
+  content: '' !important;
 }

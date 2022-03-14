@@ -5,6 +5,7 @@ import {omit} from '@arcath/utils/lib/functions/pick'
 import {Link} from 'remix'
 
 import {Code} from './code'
+import {GPO} from './gpo'
 
 import {ButtonLink} from './button'
 
@@ -25,15 +26,11 @@ const Anchor: React.FC<
     return <a {...props} />
   }
 
-  if (href!.substr(0, 4) === 'http') {
+  if (href!.substr(0, 4) === 'http' || href!.substr(0, 4) === 'mail') {
     return <a href={href!}>{children}</a>
   }
 
-  return (
-    <Link to={href!}>
-      <a>{children}</a>
-    </Link>
-  )
+  return <Link to={href!}>{children}</Link>
 }
 
 const components = {
@@ -48,7 +45,8 @@ const components = {
 
     return <pre {...preProps} />
   },
-  ButtonLink
+  ButtonLink,
+  GPO
 } as any
 
 export const MDXContent: React.FC<{source: string}> = ({source}) => {
