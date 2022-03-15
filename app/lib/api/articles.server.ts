@@ -78,13 +78,8 @@ export const getArticleAsset = async (slug: string, fileName: string) => {
 }
 
 const GET_ARTICLES_QUERY = gql`
-  query getArticles($first: Int!, $skip: Int!, $featured: Boolean) {
-    articles(
-      orderBy: date_DESC
-      first: $first
-      skip: $skip
-      where: {featured: $featured}
-    ) {
+  query getArticles($first: Int!, $skip: Int!) {
+    articles(orderBy: date_DESC, first: $first, skip: $skip) {
       title
       slug
       date
@@ -164,6 +159,68 @@ export const getTaggedArticles = async ({
       'title' | 'slug' | 'date' | 'tags' | 'lead'
     >[]
   }>(GET_TAGGED_ARTICLES_QUERY, {first: count, skip, featured, tag})
+
+  return articles.articles
+}
+
+const GET_ARTICLES_COUNT = gql`
+  query getArticlesCount {
+    articlesConnection {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+export const getArticlesCount = async () => {
+  const graph = getGraph()
+
+  const aggregate = await graph.request<{
+    articlesConnection: {aggregate: {count: number}}
+  }>(GET_ARTICLES_COUNT)
+
+  return aggregate.articlesConnection.aggregate.count
+}
+
+const GET_FEATURED_ARTICLES_QUERY = gql`
+  query getArticles($first: Int!, $skip: Int!) {
+    articles(
+      orderBy: date_DESC
+      first: $first
+      skip: $skip
+      where: {featured: true}
+    ) {
+      title
+      slug
+      date
+      lead
+      tags {
+        name
+        slug
+      }
+    }
+  }
+`
+
+export const getFeaturedArticles = async ({
+  count,
+  skip,
+  tag
+}: {
+  count: number
+  skip: number
+  featured?: boolean
+  tag?: string
+}) => {
+  const graph = getGraph()
+
+  const articles = await graph.request<{
+    articles: Pick<
+      Article<'name' | 'slug'>,
+      'title' | 'slug' | 'date' | 'tags' | 'lead'
+    >[]
+  }>(GET_FEATURED_ARTICLES_QUERY, {first: count, skip, tag})
 
   return articles.articles
 }

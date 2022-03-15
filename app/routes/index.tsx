@@ -7,18 +7,21 @@ import {motion} from 'framer-motion'
 
 import {pageTitle, getSiteData} from '../lib/utils'
 
-import {getArticles} from '~/lib/api/articles.server'
+import {getFeaturedArticles} from '~/lib/api/articles.server'
 import {getTwitterClient} from '~/lib/api/twitter.server'
 import {getSection} from '~/lib/api/sections.server'
 
 import {prepareMDX} from '~/lib/mdx.server'
 
-import {ButtonLink} from '~/lib/components/button'
+import {ButtonA} from '~/lib/components/button'
 import {ArticleBlock} from '~/lib/components/article-block'
 import {MDXContent} from '~/lib/components/content'
 
 export const loader: LoaderFunction = async () => {
-  const articles = await getArticles({count: 3, skip: 0, featured: true})
+  const articles = await getFeaturedArticles({
+    count: 3,
+    skip: 0
+  })
   const {title, subTitle} = getSiteData()
 
   const intro = await getSection('intro')
@@ -28,7 +31,7 @@ export const loader: LoaderFunction = async () => {
   const twitterUser = await twitter.v2.userByUsername('ArcathWhitefall')
   const tweets = await twitter.v2.userTimeline(twitterUser.data.id, {
     'tweet.fields': ['created_at'],
-    max_results: 6
+    max_results: 5
   })
 
   const introCode = await prepareMDX({source: intro.body, bundlePath: '/'})
@@ -53,7 +56,7 @@ export let meta: MetaFunction = () => {
 
 export default function Index() {
   const {articles, title, tweets, subTitle, intro, introCode} = useLoaderData<{
-    articles: Awaited<ReturnType<typeof getArticles>>
+    articles: Awaited<ReturnType<typeof getFeaturedArticles>>
     intro: Awaited<ReturnType<typeof getSection>>
     introCode: string
     title: string
@@ -82,6 +85,26 @@ export default function Index() {
         {articles.map(article => {
           return <ArticleBlock article={article} key={article.slug} />
         })}
+      </div>
+      <h2 className="text-2xl text-brand-dark">@ArcathWhitefall</h2>
+      <div className="grid grid-cols-3 gap-4 mt-8">
+        {tweets.map(tweet => {
+          return (
+            <div key={tweet.id}>
+              <div className="pb-2 border-b border-brand-light">
+                {tweet.text}
+              </div>
+              <div>
+                {formatDistance(new Date(), new Date(tweet.created_at!))} ago
+              </div>
+            </div>
+          )
+        })}
+        <div>
+          <ButtonA href="https://twitter.com/arcathwhitefall" target="_BLANK">
+            Follow me on Twitter
+          </ButtonA>
+        </div>
       </div>
     </div>
   )

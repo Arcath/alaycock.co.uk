@@ -4,7 +4,7 @@ import type {MetaFunction, LoaderFunction} from 'remix'
 
 import {pageTitle, getSiteData} from '../../lib/utils'
 
-import {getArticles} from '~/lib/api/articles.server'
+import {getArticles, getArticlesCount} from '~/lib/api/articles.server'
 import {getTags} from '~/lib/api/tags.server'
 
 import {ArticleBlock} from '~/lib/components/article-block'
@@ -20,7 +20,9 @@ export const loader: LoaderFunction = async ({request}) => {
   const tags = await getTags()
   const {title, subTitle} = getSiteData()
 
-  return {articles, title, subTitle, tags}
+  const total = await getArticlesCount()
+
+  return {articles, title, subTitle, tags, total}
 }
 
 export let meta: MetaFunction = () => {
@@ -30,11 +32,16 @@ export let meta: MetaFunction = () => {
 }
 
 const ArticlesPage = () => {
-  const {articles: loaderArticles, tags} = useLoaderData<{
+  const {
+    articles: loaderArticles,
+    tags,
+    total
+  } = useLoaderData<{
     articles: Awaited<ReturnType<typeof getArticles>>
     tags: Awaited<ReturnType<typeof getTags>>
     title: string
     subTitle: string
+    total: number
   }>()
 
   const fetcher = useFetcher()
@@ -46,6 +53,8 @@ const ArticlesPage = () => {
       setArticles([...articles, ...fetcher.data.articles])
     }
   }, [fetcher.data])
+
+  console.dir([articles.length, total])
 
   return (
     <div className="grid grid-cols-layout">
@@ -66,16 +75,20 @@ const ArticlesPage = () => {
           {articles.map(article => {
             return <ArticleBlock article={article} key={article.slug} />
           })}
-          <div className="col-span-3">
-            <Button
-              onClick={() => {
-                fetcher.load(`/articles?skip=${articles.length}`)
-              }}
-              className="w-full"
-            >
-              More...
-            </Button>
-          </div>
+          {articles.length < total ? (
+            <div className="col-span-3">
+              <Button
+                onClick={() => {
+                  fetcher.load(`/articles?skip=${articles.length}`)
+                }}
+                className="w-full"
+              >
+                More...
+              </Button>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>
