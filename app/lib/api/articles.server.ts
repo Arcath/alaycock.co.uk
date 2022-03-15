@@ -100,11 +100,13 @@ const GET_ARTICLES_QUERY = gql`
 export const getArticles = async ({
   count,
   skip,
-  featured
+  featured,
+  tag
 }: {
   count: number
   skip: number
   featured?: boolean
+  tag?: string
 }) => {
   const graph = getGraph()
 
@@ -113,7 +115,55 @@ export const getArticles = async ({
       Article<'name' | 'slug'>,
       'title' | 'slug' | 'date' | 'tags' | 'lead'
     >[]
-  }>(GET_ARTICLES_QUERY, {first: count, skip, featured})
+  }>(GET_ARTICLES_QUERY, {first: count, skip, featured, tag})
+
+  return articles.articles
+}
+
+const GET_TAGGED_ARTICLES_QUERY = gql`
+  query getArticles(
+    $first: Int!
+    $skip: Int!
+    $featured: Boolean
+    $tag: String
+  ) {
+    articles(
+      orderBy: date_DESC
+      first: $first
+      skip: $skip
+      where: {featured: $featured, tags_some: {slug: $tag}}
+    ) {
+      title
+      slug
+      date
+      lead
+      tags {
+        name
+        slug
+      }
+    }
+  }
+`
+
+export const getTaggedArticles = async ({
+  count,
+  skip,
+  featured,
+  tag
+}: {
+  count: number
+  skip: number
+  featured?: boolean
+  tag?: string
+}) => {
+  const graph = getGraph()
+
+  const articles = await graph.request<{
+    articles: Pick<
+      Article<'name' | 'slug'>,
+      'title' | 'slug' | 'date' | 'tags' | 'lead'
+    >[]
+  }>(GET_TAGGED_ARTICLES_QUERY, {first: count, skip, featured, tag})
 
   return articles.articles
 }

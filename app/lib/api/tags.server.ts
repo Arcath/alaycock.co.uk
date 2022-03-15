@@ -31,3 +31,21 @@ export const getTags = async () => {
 
   return tags.tags
 }
+
+const GET_TAG_QUERY = gql`
+  query GetTag($slug: String!) {
+    tag(where: {slug: $slug}) {
+      name
+    }
+  }
+`
+
+export const getTag = async (slug: string) => {
+  const graph = getGraph()
+
+  const tag = await graph.request<{tag: Pick<Tag, 'name'>}>(GET_TAG_QUERY, {
+    slug
+  })
+
+  return tag.tag
+}
