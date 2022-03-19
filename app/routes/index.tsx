@@ -28,7 +28,7 @@ export const loader: LoaderFunction = async () => {
 
   const twitter = getTwitterClient()
 
-  const twitterUser = await twitter.v2.userByUsername('ArcathWhitefall')
+  const twitterUser = await twitter.v2.userByUsername('AdamMLaycock')
   const tweets = await twitter.v2.userTimeline(twitterUser.data.id, {
     'tweet.fields': ['created_at'],
     max_results: 5
@@ -91,9 +91,10 @@ export default function Index() {
         {tweets.map(tweet => {
           return (
             <div key={tweet.id}>
-              <div className="pb-2 border-b border-brand-light">
-                {tweet.text}
-              </div>
+              <div
+                className="pb-2 border-b border-brand-light"
+                dangerouslySetInnerHTML={{__html: nl2br(tweet.text)}}
+              />
               <div>
                 {formatDistance(new Date(), new Date(tweet.created_at!))} ago
               </div>
@@ -101,7 +102,7 @@ export default function Index() {
           )
         })}
         <div>
-          <ButtonA href="https://twitter.com/arcathwhitefall" target="_BLANK">
+          <ButtonA href="https://twitter.com/adammlaycock" target="_BLANK">
             Follow me on Twitter
           </ButtonA>
         </div>
