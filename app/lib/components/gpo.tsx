@@ -1,4 +1,7 @@
 import {useState} from 'react'
+import {addressObject} from '@arcath/utils/lib/functions/address-object'
+
+const ADDRESS_SEPERATOR = '|'
 
 const LABELS: {[key: string]: string} = {
   policies: 'Policies',
@@ -12,17 +15,28 @@ const ICONS: {[key: string]: string} = {
   administrativeTemplates: '📏'
 }
 
-const ExpandableTab: React.FC<{label: string; initialState?: boolean}> = ({
-  label,
-  initialState,
-  children
-}) => {
+const ExpandableTab: React.FC<{
+  label: string
+  initialState?: boolean
+  setOpenPath: (newPath: string) => void
+  path: string
+  icon?: string
+}> = ({label, initialState, children, setOpenPath, path, icon}) => {
   const [open, setOpen] = useState(!!initialState)
+
+  const closedIcon = icon ? icon : '📁'
+  const openIcon = icon ? icon : '📂'
 
   if (!open) {
     return (
-      <div onClick={() => setOpen(true)} className="font-headings">
-        {ICONS[label] !== undefined ? ICONS[label] : '📁'}{' '}
+      <div
+        onClick={() => {
+          setOpen(true)
+          setOpenPath(path)
+        }}
+        className="font-headings cursor-pointer"
+      >
+        {ICONS[label] !== undefined ? ICONS[label] : closedIcon}{' '}
         {LABELS[label] !== undefined ? LABELS[label] : label}
       </div>
     )
@@ -33,10 +47,11 @@ const ExpandableTab: React.FC<{label: string; initialState?: boolean}> = ({
       <div
         onClick={() => {
           setOpen(false)
+          setOpenPath('')
         }}
-        className="font-headings"
+        className="font-headings cursor-pointer"
       >
-        {ICONS[label] !== undefined ? ICONS[label] : '📂'}{' '}
+        {ICONS[label] !== undefined ? ICONS[label] : openIcon}{' '}
         {LABELS[label] !== undefined ? LABELS[label] : label}
       </div>
       <div className="pl-4">{children}</div>
@@ -49,26 +64,32 @@ export const TreeEntry: React.FC<{
   dataKey: string
   label: string
   depth: number
-}> = ({subTree, dataKey, label, depth}) => {
+  path: string
+  setOpenPath: (newPath: string) => void
+}> = ({subTree, dataKey, label, depth, path, setOpenPath}) => {
   if (subTree[dataKey] === undefined) {
     return <></>
+  }
+
+  if (dataKey === 'icon') {
+    return null
   }
 
   if (
     subTree[dataKey].hasOwnProperty('value') &&
     subTree[dataKey].hasOwnProperty('about')
   ) {
-    return (
-      <div className="grid grid-cols-4 mb-2 mt-2 gap-2">
-        <div className="row-span-2 text-lg">{label}</div>
-        <pre className="col-span-3 mb-2 mt-0">{subTree[dataKey].value}</pre>
-        <div className="col-span-3">{subTree[dataKey].about}</div>
-      </div>
-    )
+    return null
   }
 
   return (
-    <ExpandableTab label={label} initialState={depth < 3}>
+    <ExpandableTab
+      label={label}
+      initialState={depth < 3}
+      setOpenPath={setOpenPath}
+      path={path}
+      icon={subTree[dataKey].icon}
+    >
       {Object.keys(subTree[dataKey]).map(k => {
         return (
           <TreeEntry
@@ -77,6 +98,8 @@ export const TreeEntry: React.FC<{
             label={k}
             depth={depth + 1}
             key={`${dataKey}-${k}`}
+            path={[path, k].join(ADDRESS_SEPERATOR)}
+            setOpenPath={setOpenPath}
           />
         )
       })}
@@ -85,14 +108,56 @@ export const TreeEntry: React.FC<{
 }
 
 export const GPO: React.FC<{data: any}> = ({data}) => {
+  const [openPath, setOpenPath] = useState('')
+
+  const displayData = addressObject(data, openPath, {
+    seperator: ADDRESS_SEPERATOR
+  })
+
+  const entries = Object.keys(
+    displayData !== undefined ? displayData : {}
+  ).reduce((object, key) => {
+    if (
+      displayData !== undefined &&
+      displayData[key].hasOwnProperty('value') &&
+      displayData[key].hasOwnProperty('about')
+    ) {
+      object[key] = displayData[key]
+    }
+
+    return object
+  }, {} as {[key: string]: {value: string; about: string}})
+
   return (
-    <div className="col-start-2 col-span-3">
-      <TreeEntry
-        subTree={data}
-        label="Computer Configuration"
-        dataKey="computer"
-        depth={0}
-      />
+    <div className="col-start-2 col-span-3 grid grid-cols-3">
+      <div>
+        <TreeEntry
+          subTree={data}
+          label="Computer Configuration"
+          dataKey="computer"
+          depth={0}
+          path={`computer`}
+          setOpenPath={setOpenPath}
+        />
+      </div>
+      <div className="col-span-2">
+        <div className="text-xl mb-2">
+          {openPath.split(ADDRESS_SEPERATOR).pop()}
+        </div>
+        {Object.keys(entries).map(key => {
+          const entry = entries[key]
+
+          return (
+            <div key={key} className="grid grid-cols-3 gap-2">
+              <div className="row-span-2">{key}</div>
+              <div className="col-span-2">
+                <pre>{entry.value}</pre>
+              </div>
+              <div className="col-span-2">{entry.about}</div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
