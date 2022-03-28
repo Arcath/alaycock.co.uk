@@ -1,14 +1,17 @@
 import {useState, useEffect} from 'react'
-import {useLoaderData, useFetcher} from 'remix'
+import {useLoaderData, useFetcher, json} from 'remix'
 import type {MetaFunction, LoaderFunction} from 'remix'
 
 import {pageTitle, getSiteData} from '../../lib/utils'
 
-import {getTaggedArticles} from '~/lib/api/articles.server'
+import {
+  getTaggedArticles,
+  getTaggedArticlesCount
+} from '~/lib/api/articles.server'
 import {getTag} from '~/lib/api/tags.server'
 
 import {ArticleBlock} from '~/lib/components/article-block'
-import {Button, ButtonLink} from '~/lib/components/button'
+import {Button} from '~/lib/components/button'
 
 export const loader: LoaderFunction = async ({request, params}) => {
   const url = new URL(request.url)
@@ -22,7 +25,9 @@ export const loader: LoaderFunction = async ({request, params}) => {
   const tag = await getTag(tagSlug)
   const {title, subTitle} = getSiteData()
 
-  return {articles, title, subTitle, tag}
+  const total = await getTaggedArticlesCount(tagSlug)
+
+  return json({articles, title, subTitle, tag, tagSlug, total})
 }
 
 export let meta: MetaFunction = ({data}) => {
@@ -32,11 +37,18 @@ export let meta: MetaFunction = ({data}) => {
 }
 
 const ArticlesPage = () => {
-  const {articles: loaderArticles, tag} = useLoaderData<{
+  const {
+    articles: loaderArticles,
+    tag,
+    tagSlug,
+    total
+  } = useLoaderData<{
     articles: Awaited<ReturnType<typeof getTaggedArticles>>
     tag: Awaited<ReturnType<typeof getTag>>
     title: string
     subTitle: string
+    tagSlug: string
+    total: number
   }>()
 
   const fetcher = useFetcher()
@@ -59,16 +71,20 @@ const ArticlesPage = () => {
           {articles.map(article => {
             return <ArticleBlock article={article} key={article.slug} />
           })}
-          <div className="col-span-3">
-            <Button
-              onClick={() => {
-                fetcher.load(`/articles?skip=${articles.length}`)
-              }}
-              className="w-full"
-            >
-              More...
-            </Button>
-          </div>
+          {articles.length < total ? (
+            <div className="col-span-3">
+              <Button
+                onClick={() => {
+                  fetcher.load(`/articles/${tagSlug}?skip=${articles.length}`)
+                }}
+                className="w-full"
+              >
+                More...
+              </Button>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>

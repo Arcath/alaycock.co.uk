@@ -1,11 +1,10 @@
 import {useState, useEffect} from 'react'
-import {useLoaderData, useFetcher} from 'remix'
+import {useLoaderData, useFetcher, json} from 'remix'
 import type {MetaFunction, LoaderFunction} from 'remix'
 
 import {pageTitle, getSiteData} from '../../lib/utils'
 
 import {getArticles, getArticlesCount} from '~/lib/api/articles.server'
-import {getTags} from '~/lib/api/tags.server'
 
 import {ArticleBlock} from '~/lib/components/article-block'
 import {Button, ButtonLink} from '~/lib/components/button'
@@ -17,12 +16,11 @@ export const loader: LoaderFunction = async ({request}) => {
   const skip = param === null ? 0 : parseInt(param)
 
   const articles = await getArticles({count: 9, skip})
-  const tags = await getTags()
   const {title, subTitle} = getSiteData()
 
   const total = await getArticlesCount()
 
-  return {articles, title, subTitle, tags, total}
+  return json({articles, title, subTitle, total})
 }
 
 export let meta: MetaFunction = () => {
@@ -32,13 +30,8 @@ export let meta: MetaFunction = () => {
 }
 
 const ArticlesPage = () => {
-  const {
-    articles: loaderArticles,
-    tags,
-    total
-  } = useLoaderData<{
+  const {articles: loaderArticles, total} = useLoaderData<{
     articles: Awaited<ReturnType<typeof getArticles>>
-    tags: Awaited<ReturnType<typeof getTags>>
     title: string
     subTitle: string
     total: number
@@ -49,12 +42,10 @@ const ArticlesPage = () => {
   const [articles, setArticles] = useState(loaderArticles)
 
   useEffect(() => {
-    if (fetcher.data) {
+    if (fetcher.data && fetcher.data.articles) {
       setArticles([...articles, ...fetcher.data.articles])
     }
   }, [fetcher.data])
-
-  console.dir([articles.length, total])
 
   return (
     <div className="grid grid-cols-layout">
@@ -62,14 +53,10 @@ const ArticlesPage = () => {
         <h1 className="text-3xl">Articles</h1>
       </div>
       <div className="col-start-2">
-        <div className="grid grid-cols-6 gap-2 my-4">
-          {tags.map(tag => {
-            return (
-              <ButtonLink key={tag.slug} to={`/articles/${tag.slug}`}>
-                {tag.name} ({tag.articles.length})
-              </ButtonLink>
-            )
-          })}
+        <div className="p-4 mb-4">
+          <ButtonLink to="/articles/tags" className="w-full block text-center">
+            Tags
+          </ButtonLink>
         </div>
         <div className="grid grid-cols-3 col-start-2 col-span-3 gap-4">
           {articles.map(article => {
@@ -79,7 +66,7 @@ const ArticlesPage = () => {
             <div className="col-span-3">
               <Button
                 onClick={() => {
-                  fetcher.load(`/articles?skip=${articles.length}`)
+                  fetcher.load(`/articles?index&skip=${articles.length}`)
                 }}
                 className="w-full"
               >

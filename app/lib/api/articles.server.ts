@@ -183,6 +183,26 @@ export const getArticlesCount = async () => {
   return aggregate.articlesConnection.aggregate.count
 }
 
+const GET_TAGGED_ARTICLES_COUNT = gql`
+  query getTaggedArticlesCount($tagSlug: String) {
+    articlesConnection(where: {tags_some: {slug: $tagSlug}}) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+export const getTaggedArticlesCount = async (tagSlug: string) => {
+  const graph = getGraph()
+
+  const aggregate = await graph.request<{
+    articlesConnection: {aggregate: {count: number}}
+  }>(GET_TAGGED_ARTICLES_COUNT, {tagSlug})
+
+  return aggregate.articlesConnection.aggregate.count
+}
+
 const GET_FEATURED_ARTICLES_QUERY = gql`
   query getArticles($first: Int!, $skip: Int!) {
     articles(
