@@ -13,7 +13,7 @@ export const prepareMDX = async ({
   const {code} = await bundleMDX({
     source: source.replace(/\(\.\//g, `(${bundlePath}/`),
     files,
-    xdmOptions: options => {
+    mdxOptions: options => {
       options.remarkPlugins = [remarkGfm]
 
       return options
