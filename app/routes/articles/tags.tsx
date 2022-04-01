@@ -28,7 +28,7 @@ const TagsPage = () => {
         <h1 className="text-3xl">Tags</h1>
       </div>
       <div className="col-start-2">
-        <div className="grid grid-cols-6 gap-2 my-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2 my-4">
           {tags.map(tag => {
             return (
               <ButtonLink key={tag.slug} to={`/articles/${tag.slug}`}>

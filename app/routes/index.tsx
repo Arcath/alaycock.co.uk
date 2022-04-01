@@ -66,7 +66,7 @@ export default function Index() {
 
   return (
     <div>
-      <div className="grid grid-cols-2 mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 mt-8 gap-8 lg:gap-0">
         <div>
           <div className="section">
             <MDXContent source={introCode} />
@@ -81,13 +81,13 @@ export default function Index() {
           />
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4 mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8">
         {articles.map(article => {
           return <ArticleBlock article={article} key={article.slug} />
         })}
       </div>
       <h2 className="text-2xl text-brand-dark">@ArcathWhitefall</h2>
-      <div className="grid grid-cols-3 gap-4 mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8">
         {tweets.map(tweet => {
           return (
             <div key={tweet.id}>

@@ -89,7 +89,7 @@ const NavLink: React.FC<{to: string}> = ({to, children}) => {
 
 function Layout({children}: React.PropsWithChildren<{}>) {
   const {title, subTitle} = getSiteData()
-  const {toggle, value: darkMode} = useDarkMode(false, {classNameDark: 'dark'})
+  const {toggle} = useDarkMode(false, {classNameDark: 'dark'})
 
   const iconTransformOrigin = {transformOrigin: '50% 50px'}
 
@@ -102,26 +102,17 @@ function Layout({children}: React.PropsWithChildren<{}>) {
       />
       <div className="grid grid-cols-layout">
         <header className="col-start-2 z-10 mb-24 text-white">
-          <div className="grid grid-cols-4">
-            <h1 className="text-xl font-bold mt-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            <h1 className="text-3xl mt-4">
               <Link to="/">{title}</Link>
             </h1>
-            <nav className="col-span-2">
-              <ul className="flex">
-                <NavLink to="/about">About</NavLink>
-                <NavLink to="/articles">Blog</NavLink>
-                <NavLink to="/uses">Uses</NavLink>
-                <NavLink to="/contact">Contact</NavLink>
-              </ul>
-            </nav>
-            <div>
+
+            <div className="col-start-2 lg:col-start-4">
               <Link to="/">
-                <div className="p-2 rounded-full w-16 mt-2 float-right bg-fixed bg-gradient-to-b from-brand-dark to-brand-light hover:rotate-180 transition-transform">
-                  <img
-                    src="/img/profile.jpg"
-                    className="rounded-full w-12 border-2 border-white"
-                  />
-                </div>
+                <img
+                  src="/img/profile.jpg"
+                  className="rounded-full w-10 border-2 border-white float-right mt-6"
+                />
               </Link>
               <button
                 onClick={() => {
@@ -171,6 +162,14 @@ function Layout({children}: React.PropsWithChildren<{}>) {
                 </div>
               </button>
             </div>
+            <nav className="col-span-2 lg:col-start-2 lg:row-start-1">
+              <ul className="flex">
+                <NavLink to="/about">About</NavLink>
+                <NavLink to="/articles">Blog</NavLink>
+                <NavLink to="/uses">Uses</NavLink>
+                <NavLink to="/contact">Contact</NavLink>
+              </ul>
+            </nav>
           </div>
         </header>
         <div className="col-start-2">{children}</div>
@@ -180,7 +179,7 @@ function Layout({children}: React.PropsWithChildren<{}>) {
             animate={{rotate: 5}}
             transition={{duration: 1}}
           />
-          <div className="grid grid-cols-3 gap-4 z-10 relative mt-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 z-10 relative mt-16">
             <div>
               <h1 className="text-3xl">{title}</h1>
               <h2 className="text-xl">{subTitle}</h2>
