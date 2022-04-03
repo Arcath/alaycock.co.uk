@@ -1,7 +1,7 @@
 import {useMemo} from 'react'
 import type {ReactHTMLElement} from 'react'
 import {getMDXComponent} from 'mdx-bundler/client'
-import {omit} from '@arcath/utils/lib/functions/pick'
+import {omit} from '@arcath/utils'
 import {Link} from 'remix'
 
 import {Code} from './code'

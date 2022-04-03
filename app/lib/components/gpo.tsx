@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {addressObject} from '@arcath/utils/lib/functions/address-object'
+import {addressObject} from '@arcath/utils'
 
 const ADDRESS_SEPERATOR = '|'
 

@@ -12,6 +12,7 @@ module.exports = {
     /unist-.*/,
     'decode-named-character-reference',
     'character-entities',
-    'markdown-table'
+    'markdown-table',
+    /@arcath\/utils.*/
   ]
 }

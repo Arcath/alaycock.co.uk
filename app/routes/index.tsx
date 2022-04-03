@@ -1,7 +1,7 @@
 import {useLoaderData} from 'remix'
 import type {MetaFunction, LoaderFunction} from 'remix'
 import type {TweetV2} from 'twitter-api-v2'
-import {nl2br} from '@arcath/utils/lib/functions/nl2br'
+import {nl2br} from '@arcath/utils'
 import {formatDistance} from 'date-fns'
 import {motion} from 'framer-motion'
 
