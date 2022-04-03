@@ -42,7 +42,7 @@ const socialImage = async (params: Params<string>) => {
       'public',
       'fonts',
       'montserrat',
-      'montserrat-latin-300-normal.woff'
+      'montserrat-latin-300-normal.woff2'
     ),
     {family: 'Montserrat'}
   )
