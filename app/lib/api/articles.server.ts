@@ -25,6 +25,7 @@ const GET_ARTICLE_QUERY = gql`
       title
       body
       date
+      lead
       components {
         fileName
         source
@@ -40,7 +41,10 @@ export const getArticle = async (
   const graph = getGraph()
 
   const article = await graph.request<{
-    article: Pick<Article, 'title' | 'body' | 'date' | 'components'> | null
+    article: Pick<
+      Article,
+      'title' | 'body' | 'date' | 'components' | 'lead'
+    > | null
   }>(GET_ARTICLE_QUERY, {slug})
 
   if (article.article === null) {

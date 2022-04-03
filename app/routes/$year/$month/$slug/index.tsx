@@ -3,7 +3,7 @@ import {useLoaderData} from 'remix'
 
 import {prepareMDX} from '~/lib/mdx.server'
 import {MDXContent} from '~/lib/components/content'
-import {pageTitle} from '~/lib/utils'
+import {pageTitle, openGraph, getSiteData} from '~/lib/utils'
 
 import {getArticle} from '~/lib/api/articles.server'
 
@@ -35,11 +35,26 @@ export const loader: LoaderFunction = async ({params}) => {
     }, {} as {[fileName: string]: string})
   })
 
-  return {article, code}
+  return {
+    article,
+    code,
+    articlePath: '/' + [params.year, params.month, params.slug].join('/')
+  }
 }
 
 export const meta: MetaFunction = ({data}) => {
-  return {title: data ? pageTitle(data.article.title) : pageTitle('')}
+  const siteData = getSiteData()
+
+  const openGraphTags = openGraph({
+    title: data.article.title,
+    description: data.article.lead,
+    image: `${siteData.productionUrl}${data.articlePath}`
+  })
+
+  return {
+    title: data ? pageTitle(data.article.title) : pageTitle(''),
+    ...openGraphTags
+  }
 }
 
 export default function () {

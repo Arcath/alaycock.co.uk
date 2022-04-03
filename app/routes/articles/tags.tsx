@@ -1,7 +1,7 @@
 import {useLoaderData, json} from 'remix'
 import type {MetaFunction, LoaderFunction} from 'remix'
 
-import {pageTitle, getSiteData} from '../../lib/utils'
+import {pageTitle, openGraph} from '../../lib/utils'
 
 import {getTags} from '~/lib/api/tags.server'
 
@@ -14,8 +14,11 @@ export const loader: LoaderFunction = async ({request, params}) => {
 }
 
 export let meta: MetaFunction = ({data}) => {
+  const openGraphTags = openGraph({title: 'Tags'})
+
   return {
-    title: pageTitle('Article Tags')
+    title: pageTitle('Article Tags'),
+    ...openGraphTags
   }
 }
 

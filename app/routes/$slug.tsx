@@ -5,7 +5,7 @@ import {getPage} from '~/lib/api/page.server'
 
 import {prepareMDX} from '~/lib/mdx.server'
 import {MDXContent} from '~/lib/components/content'
-import {pageTitle} from '~/lib/utils'
+import {pageTitle, openGraph} from '~/lib/utils'
 
 export const loader: LoaderFunction = async ({params}) => {
   const {slug} = params
@@ -25,7 +25,14 @@ export const loader: LoaderFunction = async ({params}) => {
 }
 
 export const meta: MetaFunction = ({data}) => {
-  return {title: data ? pageTitle(data.page.title) : pageTitle('')}
+  const openGraphTags = openGraph({
+    title: data.page.title
+  })
+
+  return {
+    title: data ? pageTitle(data.page.title) : pageTitle(''),
+    ...openGraphTags
+  }
 }
 
 const Page = () => {

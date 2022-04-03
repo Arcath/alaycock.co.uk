@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import {useLoaderData, useFetcher, json} from 'remix'
 import type {MetaFunction, LoaderFunction} from 'remix'
 
-import {pageTitle, getSiteData} from '../../lib/utils'
+import {pageTitle, getSiteData, openGraph} from '../../lib/utils'
 
 import {getArticles, getArticlesCount} from '~/lib/api/articles.server'
 
@@ -24,8 +24,11 @@ export const loader: LoaderFunction = async ({request}) => {
 }
 
 export let meta: MetaFunction = () => {
+  const openGraphTags = openGraph({title: 'Articles'})
+
   return {
-    title: pageTitle('Articles')
+    title: pageTitle('Articles'),
+    ...openGraphTags
   }
 }
 
