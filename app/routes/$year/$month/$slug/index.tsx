@@ -48,7 +48,7 @@ export const meta: MetaFunction = ({data}) => {
   const openGraphTags = openGraph({
     title: data.article.title,
     description: data.article.lead,
-    image: `${siteData.productionUrl}${data.articlePath}`
+    image: `${siteData.productionUrl}${data.articlePath}/social.jpg`
   })
 
   return {
