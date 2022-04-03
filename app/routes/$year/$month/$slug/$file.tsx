@@ -36,6 +36,17 @@ const WIDTH = 1280
 const HEIGHT = 640
 
 const socialImage = async (params: Params<string>) => {
+  registerFont(
+    path.join(
+      process.cwd(),
+      'public',
+      'fonts',
+      'montserrat',
+      'montserrat-latin-300-normal.woff'
+    ),
+    {family: 'Montserrat'}
+  )
+
   const article = await getArticle(params.slug!, {
     year: params.year,
     month: params.month
@@ -59,7 +70,7 @@ const socialImage = async (params: Params<string>) => {
 
   context.rotate(-25)
 
-  context.font = '50pt Arial'
+  context.font = '50pt Montserrat'
   context.textAlign = 'left'
   context.fillStyle = '#fff'
   context.textBaseline = 'top'
