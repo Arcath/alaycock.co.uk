@@ -1,10 +1,11 @@
 {
   "title": "Adam Laycock",
   "subTitle": "Network Manager, Developer & Blogger.",
+  "productionUrl": "https://www.alaycock.co.uk",
   "social": {
     "twitter": {
-      "url": "https://www.twitter.com/ArcathWhitefall",
-      "label": "@ArcathWhitefall"
+      "url": "https://www.twitter.com/AdamMLaycock",
+      "label": "@AdamMLaycock"
     },
     "github": {"url": "https://www.github.com/Arcath", "label": "Arcath"}
   }

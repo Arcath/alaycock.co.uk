@@ -1,43 +1,12 @@
 import type {LoaderFunction} from 'remix'
-import type {Params} from 'react-router'
-import fetch from 'node-fetch'
 import {createCanvas, registerFont, loadImage} from 'canvas'
-import path from 'path'
-import {format} from 'date-fns'
-
-import {getArticleAsset, getArticle} from '~/lib/api/articles.server'
 import {getSiteData} from '~/lib/utils'
-
-export const loader: LoaderFunction = async ({params}) => {
-  if (
-    typeof params.year !== 'string' ||
-    typeof params.month !== 'string' ||
-    typeof params.slug !== 'string' ||
-    typeof params.file !== 'string'
-  ) {
-    throw new Response('Not Found', {status: 404})
-  }
-
-  if (params.file === 'social.jpg') {
-    return socialImage(params)
-  }
-
-  const file = await getArticleAsset(params.slug, params.file)
-
-  const imageReponse = await fetch(file.url)
-
-  return new Response(await imageReponse.buffer(), {
-    headers: {
-      'Cache-Control': 's-maxage=43200',
-      'content-type': imageReponse.headers.get('content-type')!
-    }
-  })
-}
+import path from 'path'
 
 const WIDTH = 1280
 const HEIGHT = 640
 
-const socialImage = async (params: Params<string>) => {
+export const loader: LoaderFunction = async () => {
   const siteData = getSiteData()
 
   registerFont(
@@ -50,11 +19,6 @@ const socialImage = async (params: Params<string>) => {
     ),
     {family: 'Montserrat'}
   )
-
-  const article = await getArticle(params.slug!, {
-    year: params.year,
-    month: params.month
-  })
 
   const canvas = createCanvas(WIDTH, HEIGHT)
   const context = canvas.getContext('2d')
@@ -80,7 +44,7 @@ const socialImage = async (params: Params<string>) => {
   context.textBaseline = 'top'
 
   const lines: string[] = []
-  const words = article!.title.split(' ')
+  const words = siteData.title.split(' ')
   let line: string[] = []
   while (words.length !== 0) {
     const nextLine = [...line, words[0]].join(' ')
@@ -106,7 +70,7 @@ const socialImage = async (params: Params<string>) => {
 
   cursor += 10
   context.font = '20pt Montserrat'
-  context.fillText(format(new Date(article!.date), 'do MMMM yyyy'), 40, cursor)
+  context.fillText(siteData.subTitle, 40, cursor)
 
   context.font = '25pt Montserrat'
   context.textBaseline = 'bottom'

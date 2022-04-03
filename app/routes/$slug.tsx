@@ -29,8 +29,10 @@ export const meta: MetaFunction = ({data}) => {
 }
 
 const Page = () => {
-  const {page, code} =
-    useLoaderData<{page: Awaited<ReturnType<typeof getPage>>; code: string}>()
+  const {page, code} = useLoaderData<{
+    page: Awaited<ReturnType<typeof getPage>>
+    code: string
+  }>()
 
   return (
     <div className="grid grid-cols-content prose dark:prose-dark mdx-content">

@@ -5,7 +5,7 @@ import {nl2br} from '@arcath/utils'
 import {formatDistance} from 'date-fns'
 import {motion} from 'framer-motion'
 
-import {pageTitle, getSiteData} from '../lib/utils'
+import {pageTitle, getSiteData, openGraph} from '../lib/utils'
 
 import {getFeaturedArticles} from '~/lib/api/articles.server'
 import {getTwitterClient} from '~/lib/api/twitter.server'
@@ -48,9 +48,11 @@ export const loader: LoaderFunction = async () => {
 
 export let meta: MetaFunction = () => {
   const {subTitle} = getSiteData()
+  const openGraphTags = openGraph({})
 
   return {
-    title: pageTitle(subTitle)
+    title: pageTitle(subTitle),
+    ...openGraphTags
   }
 }
 
