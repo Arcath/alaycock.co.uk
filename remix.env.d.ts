@@ -21,3 +21,7 @@ declare module 'copy-dir' {
     options?: Partial<CopyDirOptions>
   ) => unknown
 }
+
+declare module 'woff-tools' {
+  export const toSfnt: (input: Buffer) => Buffer
+}

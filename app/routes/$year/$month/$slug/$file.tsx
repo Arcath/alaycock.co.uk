@@ -1,5 +1,5 @@
 import type {LoaderFunction} from 'remix'
-import type {Params} from '@remix-run/react/node_modules/react-router'
+import type {Params} from 'react-router'
 import fetch from 'node-fetch'
 import {createCanvas, registerFont} from 'canvas'
 import path from 'path'
@@ -42,7 +42,7 @@ const socialImage = async (params: Params<string>) => {
       'public',
       'fonts',
       'montserrat',
-      'montserrat-latin-300-normal.woff2'
+      'montserrat-latin-300-normal.ttf'
     ),
     {family: 'Montserrat'}
   )

@@ -2,6 +2,8 @@ import fs from 'fs'
 import path from 'path'
 import copydir from 'copy-dir'
 import mkdirp from 'mkdirp'
+import {toSfnt} from 'woff-tools'
+
 const {readdir, readFile, writeFile} = fs.promises
 
 const main = async () => {
@@ -39,6 +41,28 @@ const main = async () => {
         newCss
       )
     })
+  )
+
+  await writeFile(
+    path.join(
+      process.cwd(),
+      'public',
+      'fonts',
+      'montserrat',
+      'montserrat-latin-300-normal.ttf'
+    ),
+    toSfnt(
+      await readFile(
+        path.join(
+          process.cwd(),
+          'node_modules',
+          '@fontsource',
+          'montserrat',
+          'files',
+          'montserrat-latin-300-normal.woff'
+        )
+      )
+    )
   )
 }
 
