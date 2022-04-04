@@ -61,7 +61,7 @@ export default function () {
   const {article, code} = useLoaderData()
 
   return (
-    <div className="grid grid-cols-content prose dark:prose-dark mdx-content">
+    <div className="grid grid-cols-content prose dark:prose-dark mdx-content pt-4">
       <h1>{article.title}</h1>
 
       <MDXContent source={code} />
