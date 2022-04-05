@@ -1,5 +1,5 @@
 import type {LoaderFunction, MetaFunction} from 'remix'
-import {useLoaderData} from 'remix'
+import {useLoaderData, json} from 'remix'
 
 import {prepareMDX} from '~/lib/mdx.server'
 import {MDXContent} from '~/lib/components/content'
@@ -35,11 +35,18 @@ export const loader: LoaderFunction = async ({params}) => {
     }, {} as {[fileName: string]: string})
   })
 
-  return {
-    article,
-    code,
-    articlePath: '/' + [params.year, params.month, params.slug].join('/')
-  }
+  return json(
+    {
+      article,
+      code,
+      articlePath: '/' + [params.year, params.month, params.slug].join('/')
+    },
+    {
+      headers: {
+        'Cache-Control': `public, max-age=${60 * 5}, s-maxage=${60 * 60 * 24}`
+      }
+    }
+  )
 }
 
 export const meta: MetaFunction = ({data}) => {

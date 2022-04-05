@@ -1,1 +1,1 @@
-module.exports = require('@arcath/utils/config/prettierrc')
+module.exports = require('@arcath/utils/config/prettierrc.cjs')
