@@ -18,7 +18,7 @@ export const openGraph = (tags: Partial<OpenGraphTags>) => {
   const openGraph = defaults<OpenGraphTags>(tags, {
     title: data.title,
     description: data.subTitle,
-    image: `${data.productionUrl}/img/social`
+    image: `${data.productionUrl}/img/social.jpg`
   })
 
   return {

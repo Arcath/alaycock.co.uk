@@ -70,7 +70,7 @@ export const loader: LoaderFunction = async () => {
 
   cursor += 10
   context.font = '20pt Montserrat'
-  context.fillText(siteData.subTitle, 40, cursor)
+  context.fillText(siteData.subTitle, 30, cursor)
 
   context.font = '25pt Montserrat'
   context.textBaseline = 'bottom'
