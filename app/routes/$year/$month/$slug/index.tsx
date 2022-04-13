@@ -8,6 +8,7 @@ import {MDXContent} from '~/lib/components/content'
 import {pageTitle, openGraph, getSiteData} from '~/lib/utils'
 
 import {getArticle} from '~/lib/api/articles.server'
+import {isAfter} from 'date-fns'
 
 export const loader: LoaderFunction = async ({params}) => {
   if (
@@ -37,6 +38,8 @@ export const loader: LoaderFunction = async ({params}) => {
     }, {} as {[fileName: string]: string})
   })
 
+  const {buildTime} = getSiteData()
+
   return json(
     {
       article,
@@ -46,7 +49,11 @@ export const loader: LoaderFunction = async ({params}) => {
     {
       headers: {
         'Cache-Control': `public, max-age=${60 * 5}, s-maxage=${60 * 60 * 24}`,
-        'Last-Modified': lastModifiedHeaderDate(article.updatedAt)
+        'Last-Modified': lastModifiedHeaderDate(
+          isAfter(new Date(buildTime), new Date(article.updatedAt))
+            ? buildTime
+            : article.updatedAt
+        )
       }
     }
   )
