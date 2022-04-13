@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
-import {useLoaderData, useFetcher, json} from 'remix'
-import type {MetaFunction, LoaderFunction} from 'remix'
+import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import {json} from '@remix-run/node'
+import {useFetcher, useLoaderData} from '@remix-run/react'
 
 import {pageTitle, getSiteData, openGraph} from '../../lib/utils'
 

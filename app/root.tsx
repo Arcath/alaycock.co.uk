@@ -1,15 +1,17 @@
 import * as React from 'react'
+import type {LinksFunction, LoaderFunction} from '@remix-run/node'
+
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
-  Link
-} from 'remix'
-import type {LinksFunction, LoaderFunction} from 'remix'
+  useCatch
+} from '@remix-run/react'
+
 import useDarkMode from 'use-dark-mode'
 import {motion} from 'framer-motion'
 

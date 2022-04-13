@@ -1,4 +1,4 @@
-import type {LoaderFunction} from 'remix'
+import type {LoaderFunction} from '@remix-run/node'
 import {isBefore} from 'date-fns'
 
 import {getSiteData} from '../lib/utils'

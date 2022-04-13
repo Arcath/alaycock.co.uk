@@ -6,8 +6,8 @@
 // Remix won't even try to figure things out on its own, it'll just completely
 // ignore it for the browser bundles. On a related note, crypto can't be
 // imported directly into a route module, but if it's in this file you're fine.
-import { createHash } from "crypto";
+import {createHash} from 'crypto'
 
 export function hash(str: string) {
-  return createHash("sha1").update(str).digest("hex").toString();
+  return createHash('sha1').update(str).digest('hex').toString()
 }

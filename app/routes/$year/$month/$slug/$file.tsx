@@ -1,4 +1,4 @@
-import type {LoaderFunction} from 'remix'
+import type {LoaderFunction} from '@remix-run/node'
 import type {Params} from 'react-router'
 import fetch from 'node-fetch'
 import {createCanvas, registerFont, loadImage} from 'canvas'

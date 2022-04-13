@@ -1,5 +1,6 @@
-import type {LoaderFunction, MetaFunction} from 'remix'
-import {useLoaderData, json} from 'remix'
+import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import {json} from '@remix-run/node'
+import {useLoaderData} from '@remix-run/react'
 
 import {prepareMDX} from '~/lib/mdx.server'
 import {MDXContent} from '~/lib/components/content'

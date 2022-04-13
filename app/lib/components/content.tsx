@@ -2,7 +2,7 @@ import {useMemo} from 'react'
 import type {ReactHTMLElement} from 'react'
 import {getMDXComponent} from 'mdx-bundler/client'
 import {omit} from '@arcath/utils'
-import {Link} from 'remix'
+import {Link} from '@remix-run/react'
 
 import {Code} from './code'
 import {GPO} from './gpo'

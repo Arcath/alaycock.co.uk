@@ -1,5 +1,5 @@
-import {useLoaderData} from 'remix'
-import type {MetaFunction, LoaderFunction} from 'remix'
+import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import {useLoaderData} from '@remix-run/react'
 import type {TweetV2} from 'twitter-api-v2'
 import {nl2br} from '@arcath/utils'
 import {formatDistance} from 'date-fns'

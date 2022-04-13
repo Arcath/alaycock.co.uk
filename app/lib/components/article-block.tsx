@@ -1,4 +1,4 @@
-import {Link} from 'remix'
+import {Link} from '@remix-run/react'
 import {format} from 'date-fns'
 
 import {ButtonLink} from './button'

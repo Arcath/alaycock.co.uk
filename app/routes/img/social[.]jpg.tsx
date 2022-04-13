@@ -1,4 +1,4 @@
-import type {LoaderFunction} from 'remix'
+import type {LoaderFunction} from '@remix-run/node'
 import {createCanvas, registerFont, loadImage} from 'canvas'
 import {getSiteData} from '~/lib/utils'
 import path from 'path'
