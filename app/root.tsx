@@ -10,7 +10,6 @@ import {
   Link
 } from 'remix'
 import type {LinksFunction, LoaderFunction} from 'remix'
-import {redirect} from 'remix'
 import useDarkMode from 'use-dark-mode'
 import {motion} from 'framer-motion'
 
@@ -75,7 +74,10 @@ function Document({
   )
 }
 
-const NavLink: React.FC<{to: string}> = ({to, children}) => {
+const NavLink: React.FC<{to: string; children: React.ReactNode}> = ({
+  to,
+  children
+}) => {
   return (
     <li className="px-5 py-2">
       <Link
