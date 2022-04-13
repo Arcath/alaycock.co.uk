@@ -14,3 +14,13 @@ jobs:
         name: 🎈 Deploy to Fly
         with:
           args: 'deploy'
+
+      - uses: treosh/lighthouse-ci-action@v9
+        name: 🧪 Lighthouse Tests
+        with:
+          temporaryPublicStorage: true
+          urls: |
+            https://www.alaycock.co.uk/
+            https://www.alaycock.co.uk/about
+            https://www.alaycock.co.uk/articles
+            https://www.alaycock.co.uk/2022/03/windows-update-for-business
