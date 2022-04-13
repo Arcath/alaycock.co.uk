@@ -10,6 +10,7 @@ export type Article<TagFields extends keyof Tag = keyof Tag<'slug'>> = {
   slug: string
   date: string
   lead: string
+  updatedAt: string
   assets: {
     fileName: string
     url: string
@@ -26,6 +27,7 @@ const GET_ARTICLE_QUERY = gql`
       body
       date
       lead
+      updatedAt
       components {
         fileName
         source
@@ -43,7 +45,7 @@ export const getArticle = async (
   const article = await graph.request<{
     article: Pick<
       Article,
-      'title' | 'body' | 'date' | 'components' | 'lead'
+      'title' | 'body' | 'date' | 'components' | 'lead' | 'updatedAt'
     > | null
   }>(GET_ARTICLE_QUERY, {slug})
 

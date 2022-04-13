@@ -1,6 +1,7 @@
 import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
+import {lastModifiedHeaderDate} from '@arcath/utils'
 
 import {prepareMDX} from '~/lib/mdx.server'
 import {MDXContent} from '~/lib/components/content'
@@ -44,7 +45,8 @@ export const loader: LoaderFunction = async ({params}) => {
     },
     {
       headers: {
-        'Cache-Control': `public, max-age=${60 * 5}, s-maxage=${60 * 60 * 24}`
+        'Cache-Control': `public, max-age=${60 * 5}, s-maxage=${60 * 60 * 24}`,
+        'Last-Modified': lastModifiedHeaderDate(article.updatedAt)
       }
     }
   )
