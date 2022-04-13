@@ -10,6 +10,7 @@ import {
   Link
 } from 'remix'
 import type {LinksFunction, LoaderFunction} from 'remix'
+import {redirect} from 'remix'
 import useDarkMode from 'use-dark-mode'
 import {motion} from 'framer-motion'
 
@@ -26,8 +27,15 @@ export let links: LinksFunction = () => {
   ]
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({request}) => {
   const {subTitle, title} = getSiteData()
+
+  if (
+    process.env.NODE_ENV === 'production' &&
+    request.headers.get('X-Forwarded-Proto') === 'http'
+  ) {
+    return redirect(`https://${request.headers.get('host')}${request.url}`, 301)
+  }
 
   return {title, subTitle}
 }
