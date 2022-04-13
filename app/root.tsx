@@ -116,10 +116,11 @@ function Layout({children}: React.PropsWithChildren<{}>) {
             </h1>
 
             <div className="col-start-2 lg:col-start-4">
-              <Link to="/">
+              <Link to="/" aria-label="Link to homepage">
                 <img
                   src="/img/profile.jpg"
                   className="rounded-full w-10 border-2 border-white float-right mt-6"
+                  alt="A picture of me, link to the home page."
                 />
               </Link>
               <button
@@ -127,6 +128,7 @@ function Layout({children}: React.PropsWithChildren<{}>) {
                   toggle()
                 }}
                 className="float-right"
+                aria-label="Toggle Dark Mode"
               >
                 <div className="rounded-full border-2 border-white w-10 h-10 mt-6 mr-2 relative overflow-hidden">
                   <span

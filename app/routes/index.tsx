@@ -80,6 +80,7 @@ export default function Index() {
             src="/img/profile.jpg"
             animate={{rotate: 5}}
             transition={{duration: 1}}
+            alt="A picture of me."
           />
         </div>
       </div>
