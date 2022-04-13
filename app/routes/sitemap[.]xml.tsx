@@ -122,7 +122,8 @@ export const loader: LoaderFunction = async () => {
     headers: {
       'Content-Type': 'application/xml',
       'xml-version': '1.0',
-      encoding: 'UTF-8'
+      encoding: 'UTF-8',
+      'Content-Length': String(Buffer.byteLength(sitemap))
     }
   })
 }
