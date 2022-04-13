@@ -24,7 +24,13 @@ export let links: LinksFunction = () => {
   return [
     {rel: 'stylesheet', href: tailwindStyleUrl},
     {rel: 'stylesheet', href: montserrat},
-    {rel: 'icon', type: 'image/png', href: '/img/512.png'}
+    {rel: 'icon', type: 'image/png', href: '/img/512.png'},
+    {
+      rel: 'alternate',
+      type: 'application/rss+xml',
+      title: 'RSS Feed',
+      href: '/articles/feed.rss.xml'
+    }
   ]
 }
 
