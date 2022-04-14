@@ -26,6 +26,8 @@ RUN npm prune --production
 # Build the app
 FROM base as build
 
+ARG COMMIT_SHA
+ENV COMMIT_SHA=$COMMIT_SHA
 ENV NODE_ENV=production
 
 RUN mkdir /app
