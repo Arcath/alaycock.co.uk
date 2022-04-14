@@ -10,6 +10,7 @@
     "build:css:prod": "npm run build:css -- --env production",
     "build:remix": "remix build",
     "build:set-time": "node ./scripts/build-time.mjs",
+    "build:info": "node ./scripts/generate-build-info.mjs",
     "dev": "concurrently \"npm run dev:css\" \"npm run dev:remix\"",
     "dev:css": "tailwindcss -i ./styles/tailwind.css -o ./app/styles/tailwind.css --watch",
     "dev:remix": "dotenv -- remix dev",
