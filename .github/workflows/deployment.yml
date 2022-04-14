@@ -17,6 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: 🔽 Checkout Repo
+        with:
+          fetch-depth: '50'
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v2
