@@ -73,11 +73,13 @@ const main = async () => {
   // deploy if:
   // - there was an error getting the changed files (null)
   // - there are no changed files
-  // - there are changed files, but at least one of them is non-content
+  // - there are changed files, and they are in the app folder
   const isDeployable =
     changedFiles === null ||
     changedFiles.length === 0 ||
-    changedFiles.some(({filename}) => !filename.startsWith('content'))
+    changedFiles.some(({filename}) => filename.startsWith('app')) ||
+    changedFiles.some(({filename}) => filename.startsWith('styles')) ||
+    changedFiles.some(({filename}) => filename.startsWith('public'))
 
   console.error(
     isDeployable
