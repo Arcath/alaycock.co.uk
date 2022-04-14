@@ -9,12 +9,12 @@
     "build:css": "postcss styles/**/*.css --base styles --dir app/styles",
     "build:css:prod": "npm run build:css -- --env production",
     "build:remix": "remix build",
-    "build:set-time": "ts-node ./scripts/build-time.ts",
+    "build:set-time": "node ./scripts/build-time.mjs",
     "dev": "concurrently \"npm run dev:css\" \"npm run dev:remix\"",
     "dev:css": "tailwindcss -i ./styles/tailwind.css -o ./app/styles/tailwind.css --watch",
     "dev:remix": "dotenv -- remix dev",
     "lint": "eslint --ext js,jsx,ts,tsx .",
-    "install:fonts": "ts-node-transpile-only ./scripts/fonts.ts",
+    "install:fonts": "node ./scripts/fonts.mjs",
     "start": "cross-env NODE_ENV=production remix-serve build"
   },
   "dependencies": {
@@ -62,7 +62,6 @@
     "eslint-config-kentcdodds": "^20.2.0",
     "mkdirp": "^1.0.4",
     "postcss-cli": "^9.1.0",
-    "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
     "woff-tools": "^0.1.0"
   },
