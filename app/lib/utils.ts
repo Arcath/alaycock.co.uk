@@ -15,18 +15,18 @@ interface OpenGraphTags {
 }
 
 export const openGraph = (tags: Partial<OpenGraphTags>) => {
-  const openGraph = defaults<OpenGraphTags>(tags, {
+  const openGraphData = defaults<OpenGraphTags>(tags, {
     title: data.title,
     description: data.subTitle,
     image: `${data.productionUrl}/img/social.jpg`
   })
 
   return {
-    'og:title': openGraph.title,
-    'og:description': openGraph.description,
+    'og:title': openGraphData.title,
+    'og:description': openGraphData.description,
     'og:site_name': data.title,
-    'og:image': openGraph.image,
-    description: openGraph.description,
+    'og:image': openGraphData.image,
+    description: openGraphData.description,
     'twitter:card': 'summary_large_image',
     'twitter:creator': data.social.twitter.label
   }

@@ -1,5 +1,11 @@
+/* eslint jsx-a11y/click-events-have-key-events: off */
+
 import React, {useState} from 'react'
-import Highlight, {defaultProps, PrismTheme} from 'prism-react-renderer'
+import Highlight, {
+  defaultProps,
+  Language,
+  PrismTheme
+} from 'prism-react-renderer'
 import copy from 'copy-to-clipboard'
 
 const theme: PrismTheme = {
@@ -112,12 +118,12 @@ const calculateLinesToHighlight = (meta: string) => {
 
 export const Code: React.FC<{
   codeString: string
-  language: any
+  language: Language
   line?: string
   fileName?: string
   url?: string
-}> = ({codeString, language, line, fileName, url}) => {
-  const shouldHighlightLine = calculateLinesToHighlight(line!)
+}> = ({codeString, language, line: lines, fileName, url}) => {
+  const shouldHighlightLine = calculateLinesToHighlight(lines!)
 
   const [show, setShow] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -212,7 +218,7 @@ export const Code: React.FC<{
               )}
               {url ? (
                 <span className="mr-4 inline-block px-2 bg-white">
-                  <a href={url} target="_BLANK">
+                  <a href={url} target="_BLANK" rel="noreferrer">
                     View on Github
                   </a>
                 </span>

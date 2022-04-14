@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/no-explicit-any: off */
+
 import React from 'react'
 import {Link} from '@remix-run/react'
 
@@ -11,6 +13,7 @@ export const Button: React.FC<React.HTMLProps<HTMLButtonElement>> = props => (
   />
 )
 export const ButtonA: React.FC<React.HTMLProps<HTMLAnchorElement>> = props => (
+  // eslint-disable-next-line
   <a {...(props as any)} className={`${props.className} ${buttonClassNames}`} />
 )
 export const ButtonLink: React.FC<{

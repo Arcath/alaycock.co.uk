@@ -1,7 +1,8 @@
+import path from 'path'
 import type {LoaderFunction} from '@remix-run/node'
 import {createCanvas, registerFont, loadImage} from 'canvas'
+
 import {getSiteData} from '~/lib/utils'
-import path from 'path'
 
 const WIDTH = 1280
 const HEIGHT = 640
@@ -63,8 +64,8 @@ export const loader: LoaderFunction = async () => {
 
   let cursor = 10
 
-  lines.forEach(line => {
-    context.fillText(line, 30, cursor)
+  lines.forEach(currentLine => {
+    context.fillText(currentLine, 30, cursor)
     cursor += 80
   })
 

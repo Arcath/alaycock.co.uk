@@ -46,7 +46,7 @@ export const loader: LoaderFunction = async () => {
   }
 }
 
-export let meta: MetaFunction = () => {
+export const meta: MetaFunction = () => {
   const {subTitle} = getSiteData()
   const openGraphTags = openGraph({})
 
@@ -57,7 +57,7 @@ export let meta: MetaFunction = () => {
 }
 
 export default function Index() {
-  const {articles, title, tweets, subTitle, intro, introCode} = useLoaderData<{
+  const {articles, tweets, introCode} = useLoaderData<{
     articles: Awaited<ReturnType<typeof getFeaturedArticles>>
     intro: Awaited<ReturnType<typeof getSection>>
     introCode: string

@@ -19,7 +19,7 @@ const GET_PAGE_QUERY = gql`
 export const getPage = async (slug: string) => {
   const graph = getGraph()
 
-  const page = await graph.request<{page: Pick<Page, 'title' | 'body'>}>(
+  const page = await graph.request<{page: Pick<Page, 'title' | 'body'> | null}>(
     GET_PAGE_QUERY,
     {slug}
   )

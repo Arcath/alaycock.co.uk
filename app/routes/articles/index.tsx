@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({request}) => {
   const url = new URL(request.url)
   const param = url.searchParams.get('skip')
 
-  const skip = param === null ? 0 : parseInt(param)
+  const skip = param === null ? 0 : parseInt(param, 10)
 
   const articles = await getArticles({count: 9, skip})
   const {title, subTitle} = getSiteData()
@@ -24,7 +24,14 @@ export const loader: LoaderFunction = async ({request}) => {
   return json({articles, title, subTitle, total})
 }
 
-export let meta: MetaFunction = () => {
+type LoaderData = {
+  articles: Awaited<ReturnType<typeof getArticles>>
+  title: string
+  subTitle: string
+  total: number
+}
+
+export const meta: MetaFunction = () => {
   const openGraphTags = openGraph({title: 'Articles'})
 
   return {
@@ -34,20 +41,17 @@ export let meta: MetaFunction = () => {
 }
 
 const ArticlesPage = () => {
-  const {articles: loaderArticles, total} = useLoaderData<{
-    articles: Awaited<ReturnType<typeof getArticles>>
-    title: string
-    subTitle: string
-    total: number
-  }>()
+  const {articles: loaderArticles, total} = useLoaderData<LoaderData>()
 
-  const fetcher = useFetcher()
-
+  const fetcher = useFetcher<LoaderData>()
   const [articles, setArticles] = useState(loaderArticles)
 
   useEffect(() => {
-    if (fetcher.data && fetcher.data.articles) {
-      setArticles([...articles, ...fetcher.data.articles])
+    if (fetcher.data?.articles) {
+      setArticles(currentArticles => [
+        ...currentArticles,
+        ...fetcher.data!.articles
+      ])
     }
   }, [fetcher.data])
 

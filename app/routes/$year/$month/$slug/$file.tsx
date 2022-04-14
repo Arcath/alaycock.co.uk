@@ -1,38 +1,12 @@
+import path from 'path'
 import type {LoaderFunction} from '@remix-run/node'
 import type {Params} from 'react-router'
 import fetch from 'node-fetch'
 import {createCanvas, registerFont, loadImage} from 'canvas'
-import path from 'path'
 import {format} from 'date-fns'
 
 import {getArticleAsset, getArticle} from '~/lib/api/articles.server'
 import {getSiteData} from '~/lib/utils'
-
-export const loader: LoaderFunction = async ({params}) => {
-  if (
-    typeof params.year !== 'string' ||
-    typeof params.month !== 'string' ||
-    typeof params.slug !== 'string' ||
-    typeof params.file !== 'string'
-  ) {
-    throw new Response('Not Found', {status: 404})
-  }
-
-  if (params.file === 'social.jpg') {
-    return socialImage(params)
-  }
-
-  const file = await getArticleAsset(params.slug, params.file)
-
-  const imageReponse = await fetch(file.url)
-
-  return new Response(await imageReponse.buffer(), {
-    headers: {
-      'Cache-Control': 's-maxage=43200',
-      'content-type': imageReponse.headers.get('content-type')!
-    }
-  })
-}
 
 const WIDTH = 1280
 const HEIGHT = 640
@@ -99,8 +73,8 @@ const socialImage = async (params: Params<string>) => {
 
   let cursor = 10
 
-  lines.forEach(line => {
-    context.fillText(line, 30, cursor)
+  lines.forEach(currentLine => {
+    context.fillText(currentLine, 30, cursor)
     cursor += 80
   })
 
@@ -135,6 +109,32 @@ const socialImage = async (params: Params<string>) => {
     headers: {
       'Cache-Control': 's-maxage=43200',
       'content-type': 'image/jpg'
+    }
+  })
+}
+
+export const loader: LoaderFunction = async ({params}) => {
+  if (
+    typeof params.year !== 'string' ||
+    typeof params.month !== 'string' ||
+    typeof params.slug !== 'string' ||
+    typeof params.file !== 'string'
+  ) {
+    throw new Response('Not Found', {status: 404})
+  }
+
+  if (params.file === 'social.jpg') {
+    return socialImage(params)
+  }
+
+  const file = await getArticleAsset(params.slug, params.file)
+
+  const imageReponse = await fetch(file.url)
+
+  return new Response(await imageReponse.buffer(), {
+    headers: {
+      'Cache-Control': 's-maxage=43200',
+      'content-type': imageReponse.headers.get('content-type')!
     }
   })
 }

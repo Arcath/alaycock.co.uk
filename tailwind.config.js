@@ -77,7 +77,7 @@ module.exports = {
         headings: ['Montserrat', 'Serif']
       },
       gridTemplateColumns: {
-        layout: 'minmax(150px, 10vw) 1fr',
+        //layout: 'minmax(150px, 10vw) 1fr',
         content:
           'minmax(0.6rem, 1fr) minmax(0.6rem, 1fr) minmax(auto, 60ch) minmax(0.6rem, 1fr) minmax(0.6rem, 1fr)',
         layout: 'minmax(1.2rem, 1fr) minmax(auto, 75vw) minmax(1.2rem, 1fr)'

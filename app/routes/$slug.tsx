@@ -24,13 +24,13 @@ export const loader: LoaderFunction = async ({params}) => {
   return {page, code}
 }
 
-export const meta: MetaFunction = ({data}) => {
+export const meta: MetaFunction = ({data}: {data: {page: {title: string}}}) => {
   const openGraphTags = openGraph({
     title: data.page.title
   })
 
   return {
-    title: data ? pageTitle(data.page.title) : pageTitle(''),
+    title: pageTitle(data.page.title),
     ...openGraphTags
   }
 }

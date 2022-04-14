@@ -1,3 +1,11 @@
+/* eslint @typescript-eslint/no-unsafe-assignment: off */
+/* eslint @typescript-eslint/no-unsafe-member-access: off */
+/* eslint @typescript-eslint/no-unsafe-call: off */
+/* eslint @typescript-eslint/no-unsafe-argument: off */
+/* eslint @typescript-eslint/no-explicit-any: off */
+/* eslint @typescript-eslint/no-unnecessary-condition: off */
+/* eslint jsx-a11y/click-events-have-key-events: off */
+
 import {useState} from 'react'
 import {addressObject} from '@arcath/utils'
 
@@ -21,6 +29,7 @@ const ExpandableTab: React.FC<{
   setOpenPath: (newPath: string) => void
   path: string
   icon?: string
+  children: React.ReactNode
 }> = ({label, initialState, children, setOpenPath, path, icon}) => {
   const [open, setOpen] = useState(!!initialState)
 
@@ -36,8 +45,8 @@ const ExpandableTab: React.FC<{
         }}
         className="font-headings cursor-pointer"
       >
-        {ICONS[label] !== undefined ? ICONS[label] : closedIcon}{' '}
-        {LABELS[label] !== undefined ? LABELS[label] : label}
+        {ICONS[label] === undefined ? closedIcon : ICONS[label]}{' '}
+        {LABELS[label] === undefined ? label : LABELS[label]}
       </div>
     )
   }
@@ -51,8 +60,8 @@ const ExpandableTab: React.FC<{
         }}
         className="font-headings cursor-pointer"
       >
-        {ICONS[label] !== undefined ? ICONS[label] : openIcon}{' '}
-        {LABELS[label] !== undefined ? LABELS[label] : label}
+        {ICONS[label] === undefined ? openIcon : ICONS[label]}{' '}
+        {LABELS[label] === undefined ? label : LABELS[label]}
       </div>
       <div className="pl-4">{children}</div>
     </div>
@@ -68,7 +77,7 @@ export const TreeEntry: React.FC<{
   setOpenPath: (newPath: string) => void
 }> = ({subTree, dataKey, label, depth, path, setOpenPath}) => {
   if (subTree[dataKey] === undefined) {
-    return <></>
+    return null
   }
 
   if (dataKey === 'icon') {
@@ -115,18 +124,17 @@ export const GPO: React.FC<{data: any}> = ({data}) => {
   })
 
   const entries = Object.keys(
-    displayData !== undefined ? displayData : {}
-  ).reduce((object, key) => {
+    displayData === undefined ? {} : displayData
+  ).reduce<{[key: string]: {value: string; about: string}}>((object, key) => {
     if (
-      displayData !== undefined &&
-      displayData[key].hasOwnProperty('value') &&
-      displayData[key].hasOwnProperty('about')
+      displayData?.[key].hasOwnProperty('value') &&
+      displayData?.[key].hasOwnProperty('about')
     ) {
       object[key] = displayData[key]
     }
 
     return object
-  }, {} as {[key: string]: {value: string; about: string}})
+  }, {})
 
   return (
     <div className="col-start-2 col-span-3 grid grid-cols-3">
@@ -136,7 +144,7 @@ export const GPO: React.FC<{data: any}> = ({data}) => {
           label="Computer Configuration"
           dataKey="computer"
           depth={0}
-          path={`computer`}
+          path="computer"
           setOpenPath={setOpenPath}
         />
       </div>

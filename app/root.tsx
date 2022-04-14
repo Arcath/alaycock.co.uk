@@ -22,7 +22,7 @@ import {PageLoader} from './lib/components/page-loader'
 import tailwindStyleUrl from './styles/tailwind.css'
 import montserrat from './styles/font-montserrat.css'
 
-export let links: LinksFunction = () => {
+export const links: LinksFunction = () => {
   return [
     {rel: 'stylesheet', href: tailwindStyleUrl},
     {rel: 'stylesheet', href: montserrat},
@@ -36,7 +36,7 @@ export let links: LinksFunction = () => {
   ]
 }
 
-export const loader: LoaderFunction = async ({request}) => {
+export const loader: LoaderFunction = async () => {
   const {subTitle, title} = getSiteData()
 
   return {title, subTitle}
@@ -126,7 +126,7 @@ function Layout({children}: React.PropsWithChildren<{}>) {
                 <img
                   src="/img/profile.jpg"
                   className="rounded-full w-10 border-2 border-white float-right mt-6"
-                  alt="A picture of me, link to the home page."
+                  alt="Me, link to the home page."
                 />
               </Link>
               <button
@@ -205,6 +205,7 @@ function Layout({children}: React.PropsWithChildren<{}>) {
                 <a
                   href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   CC-BY-NC-SA 4.0 license
                 </a>
@@ -267,7 +268,7 @@ function Layout({children}: React.PropsWithChildren<{}>) {
 }
 
 export function CatchBoundary() {
-  let caught = useCatch()
+  const caught = useCatch()
 
   let message
   switch (caught.status) {
@@ -286,6 +287,7 @@ export function CatchBoundary() {
       break
 
     default:
+      // eslint-disable-next-line
       throw new Error(caught.data || caught.statusText)
   }
 

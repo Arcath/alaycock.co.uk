@@ -10,12 +10,12 @@ const cdata = (string: string) => {
 export const loader: LoaderFunction = async () => {
   const articles = await getArticles({count: 100, featured: false, skip: 0})
 
-  const {productionUrl, title, subTitle} = getSiteData()
+  const {productionUrl, title: siteTitle, subTitle} = getSiteData()
 
   const rss = `
 <rss xmlns:blogChannel="${productionUrl}" version="2.0">
   <channel>
-    <title>${title}</title>
+    <title>${siteTitle}</title>
     <link>${productionUrl}/</link>
     <description>${cdata(subTitle)}</description>
     <language>en-GB</language>

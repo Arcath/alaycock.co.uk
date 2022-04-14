@@ -8,13 +8,13 @@ import {getTags} from '~/lib/api/tags.server'
 
 import {ButtonLink} from '~/lib/components/button'
 
-export const loader: LoaderFunction = async ({request, params}) => {
+export const loader: LoaderFunction = async () => {
   const tags = await getTags()
 
   return json({tags})
 }
 
-export let meta: MetaFunction = ({data}) => {
+export const meta: MetaFunction = () => {
   const openGraphTags = openGraph({title: 'Tags'})
 
   return {

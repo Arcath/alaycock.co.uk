@@ -53,7 +53,7 @@ export const getArticle = async (
     return undefined
   }
 
-  const [dYear, dMonth, dDay] = article.article.date.split('-')
+  const [dYear, dMonth] = article.article.date.split('-')
 
   if (dYear !== year && dMonth !== month) {
     return undefined

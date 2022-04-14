@@ -17,6 +17,8 @@ const main = async () => {
 
   await Promise.all(
     fonts.map(async font => {
+      console.log(`▶ Copying ${font}`)
+
       copydir.sync(
         path.join(process.cwd(), 'node_modules', '@fontsource', font, 'files'),
         path.join(process.cwd(), 'public', 'fonts', font)
@@ -66,4 +68,13 @@ const main = async () => {
   )
 }
 
+console.log('📂 Copying Fonts')
 main()
+  .then(() => {
+    console.log('✔ Done')
+
+    return undefined
+  })
+  .catch(() => {
+    console.log('❌ Failed to copy')
+  })
