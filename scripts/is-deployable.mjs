@@ -79,7 +79,8 @@ const main = async () => {
     changedFiles.length === 0 ||
     changedFiles.some(({filename}) => filename.startsWith('app')) ||
     changedFiles.some(({filename}) => filename.startsWith('styles')) ||
-    changedFiles.some(({filename}) => filename.startsWith('public'))
+    changedFiles.some(({filename}) => filename.startsWith('public')) ||
+    changedFiles.some(({filename}) => filename.startsWith('package'))
 
   console.error(
     isDeployable
