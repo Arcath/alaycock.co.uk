@@ -104,7 +104,8 @@ module.exports = {
       },
       rotate: {
         '2-5': '2.5deg',
-        5: '5deg'
+        5: '5deg',
+        '-2-5': '-2.5deg'
       }
     }
   },

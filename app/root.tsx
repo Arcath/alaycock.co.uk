@@ -17,6 +17,7 @@ import {motion} from 'framer-motion'
 
 import {getSiteData} from './lib/utils'
 import {PolyworkIcon} from './lib/components/polywork-icon'
+import {PageLoader} from './lib/components/page-loader'
 
 import tailwindStyleUrl from './styles/tailwind.css'
 import montserrat from './styles/font-montserrat.css'
@@ -75,6 +76,7 @@ function Document({
         }`}
       >
         {children}
+        <PageLoader />
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
