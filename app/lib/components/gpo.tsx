@@ -137,8 +137,8 @@ export const GPO: React.FC<{data: any}> = ({data}) => {
   }, {})
 
   return (
-    <div className="col-start-2 col-span-3 grid grid-cols-3">
-      <div>
+    <div className="col-start-2 col-span-3 grid grid-cols-3 bg-gray-900 dark:bg-gray-700 rounded text-gray-200">
+      <div className="bg-gray-800 rounded-l">
         <TreeEntry
           subTree={data}
           label="Computer Configuration"
@@ -148,7 +148,7 @@ export const GPO: React.FC<{data: any}> = ({data}) => {
           setOpenPath={setOpenPath}
         />
       </div>
-      <div className="col-span-2">
+      <div className="col-span-2 px-2">
         <div className="text-xl mb-2">
           {openPath.split(ADDRESS_SEPERATOR).pop()}
         </div>

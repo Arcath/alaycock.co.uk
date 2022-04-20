@@ -2,7 +2,7 @@ import type {LoaderFunction, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 import {lastModifiedHeaderDate} from '@arcath/utils'
-import {isAfter} from 'date-fns'
+import {isAfter, format} from 'date-fns'
 
 import {prepareMDX} from '~/lib/mdx.server'
 import {MDXContent} from '~/lib/components/content'
@@ -90,6 +90,10 @@ const ArticlePage = () => {
   return (
     <div className="grid grid-cols-content prose dark:prose-dark mdx-content pt-4">
       <h1>{article!.title}</h1>
+
+      <div className="text-gray-400 text-sm col-start-3">
+        {format(new Date(article!.date), 'do MMMM yyyy')}
+      </div>
 
       <MDXContent source={code} />
     </div>
