@@ -1,9 +1,8 @@
 module.exports = {
   extends: [
-    'eslint-config-kentcdodds',
-    'eslint-config-kentcdodds/jest',
-    'eslint-config-kentcdodds/jsx-a11y',
-    'eslint-config-kentcdodds/react'
+    '@remix-run/eslint-config',
+    '@remix-run/eslint-config/node',
+    'prettier'
   ],
   parserOptions: {
     tsconfigRootDir: __dirname,

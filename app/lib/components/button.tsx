@@ -21,6 +21,7 @@ export const ButtonLink: React.FC<{
   to: string
   children: React.ReactNode
 }> = props => (
+  // eslint-disable-next-line
   <Link
     {...(props as any)}
     className={`${props.className} ${buttonClassNames}`}

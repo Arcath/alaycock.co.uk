@@ -1,11 +1,8 @@
 /* eslint jsx-a11y/click-events-have-key-events: off */
 
 import React, {useState} from 'react'
-import Highlight, {
-  defaultProps,
-  Language,
-  PrismTheme
-} from 'prism-react-renderer'
+import Highlight, {defaultProps} from 'prism-react-renderer'
+import type {Language, PrismTheme} from 'prism-react-renderer'
 import copy from 'copy-to-clipboard'
 
 const theme: PrismTheme = {
