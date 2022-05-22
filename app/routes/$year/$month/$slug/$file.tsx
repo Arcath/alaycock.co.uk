@@ -1,9 +1,9 @@
 import path from 'path'
 import type {LoaderFunction} from '@remix-run/node'
 import type {Params} from 'react-router'
-import fetch from 'node-fetch'
 import {createCanvas, registerFont, loadImage} from 'canvas'
 import {format} from 'date-fns'
+import {fetch} from '@remix-run/node'
 
 import {getArticleAsset, getArticle} from '~/lib/api/articles.server'
 import {getSiteData} from '~/lib/utils'
@@ -131,7 +131,7 @@ export const loader: LoaderFunction = async ({params}) => {
 
   const imageReponse = await fetch(file.url)
 
-  return new Response(await imageReponse.buffer(), {
+  return new Response(await imageReponse.arrayBuffer(), {
     headers: {
       'Cache-Control': 's-maxage=43200',
       'content-type': imageReponse.headers.get('content-type')!
