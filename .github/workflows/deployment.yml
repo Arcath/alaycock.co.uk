@@ -78,6 +78,8 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
+        with:
+          install-command: npm ci --force
 
       - name: 🔎 Type check
         run: npm run typecheck
