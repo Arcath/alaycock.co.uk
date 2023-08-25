@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  @apply min-h-full;
+}
+
+body {
+  @apply font-sans bg-gradient-to-b from-brand-dark to-brand-light min-h-full;
+}
+
+h1 {
+  @apply text-4xl mb-4;
+}
+
+a,
+a:visited {
+  @apply text-brand-dark;
+}
+
+a:hover {
+  @apply text-brand-light;
+}

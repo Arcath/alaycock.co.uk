@@ -1,51 +1,34 @@
-import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import {type LoaderArgs, json, type V2_MetaArgs} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
+import {useMemo} from 'react'
 
-import {getPage} from '~/lib/api/page.server'
+import {getPrisma} from '~/lib/prisma.server'
+import {getMDXComponent, components} from '~/lib/content'
+import {pageTitle} from '~/lib/utils'
 
-import {prepareMDX} from '~/lib/mdx.server'
-import {MDXContent} from '~/lib/components/content'
-import {pageTitle, openGraph} from '~/lib/utils'
+export const loader = async ({params}: LoaderArgs) => {
+  const prisma = getPrisma()
 
-export const loader: LoaderFunction = async ({params}) => {
-  const {slug} = params
+  const page = await prisma.page.findFirstOrThrow({where: {slug: params.slug}})
 
-  const page = await getPage(slug!)
-
-  if (!page) {
-    throw new Response('Not Found', {status: 404})
-  }
-
-  const {code} = await prepareMDX({
-    source: page.body,
-    bundlePath: `/${slug}`
-  })
-
-  return {page, code}
+  return json({page})
 }
 
-export const meta: MetaFunction = ({data}: {data: {page: {title: string}}}) => {
-  const openGraphTags = openGraph({
-    title: data.page.title
-  })
-
-  return {
-    title: pageTitle(data.page.title),
-    ...openGraphTags
-  }
+export const meta = ({data}: V2_MetaArgs<typeof loader>) => {
+  return [{title: pageTitle(data?.page.title!)}]
 }
 
 const Page = () => {
-  const {page, code} = useLoaderData<{
-    page: Awaited<ReturnType<typeof getPage>>
-    code: string
-  }>()
+  const {page} = useLoaderData<typeof loader>()
+
+  const Post = useMemo(() => getMDXComponent(page.compiled), [page.compiled])
 
   return (
-    <div className="grid grid-cols-content prose dark:prose-dark mdx-content">
-      <h1>{page!.title}</h1>
-
-      <MDXContent source={code} />
+    <div className="grid grid-cols-content">
+      <h1 className="text-4xl col-start-3 mt-8 text-center text-white">
+        {page.title}
+      </h1>
+      <Post components={components} />
     </div>
   )
 }
