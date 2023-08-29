@@ -36,10 +36,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules /app/node_modules
 
 ADD . .
-RUN npm run install:fonts
-RUN npm run build:set-time
 RUN npm run build
-RUN npm run build:info
 
 # Finally, build the production image with minimal footprint
 FROM base
