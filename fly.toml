@@ -10,7 +10,7 @@ processes = []
 
 [mounts]
   source="app_data"
-  destination="/data"
+  destination="/app/data"
 
 [experimental]
   allowed_public_ports = []
