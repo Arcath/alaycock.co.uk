@@ -60,4 +60,4 @@ RUN mkdir -p /app/data
 RUN mkdir -p /app/data/assets
 RUN ln -s /app/public/assets /app/data/assets
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "docker"]

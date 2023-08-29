@@ -7,7 +7,8 @@
     "dev": "remix dev",
     "start": "remix-serve build",
     "lint": "eslint --ext js,jsx,ts,tsx .",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "docker": "prisma migrate deploy && prisma generate && npm run start"
   },
   "dependencies": {
     "@arcath/utils": "^3.14.1",
