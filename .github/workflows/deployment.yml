@@ -57,11 +57,13 @@ jobs:
       group: ${{ github.workflow }}-${{ github.ref }}-lint
       cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v2
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
       - name: 💾 Cache Node Modules
         id: node-cache
@@ -81,11 +83,13 @@ jobs:
     if: ${{ needs.prepare.outputs.app == 'true'}}
     runs-on: ubuntu-latest
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v2
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
       - name: 💾 Cache Node Modules
         id: node-cache
@@ -108,9 +112,6 @@ jobs:
     runs-on: ubuntu-latest
     # only build/deploy master branch on pushes
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v2
 
@@ -161,9 +162,6 @@ jobs:
       ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' &&
       needs.prepare.outputs.app == 'true' }}
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v2
 
