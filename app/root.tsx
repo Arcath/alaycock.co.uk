@@ -15,7 +15,8 @@ import stylesheet from '~/styles/index.css'
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{rel: 'stylesheet', href: cssBundleHref}] : []),
-  {rel: 'stylesheet', href: stylesheet}
+  {rel: 'stylesheet', href: stylesheet},
+  {rel: 'icon', href: '/img/512.png'}
 ]
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+
         <Meta />
         <Links />
       </head>
