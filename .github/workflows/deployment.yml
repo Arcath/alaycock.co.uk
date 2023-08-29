@@ -48,6 +48,8 @@ jobs:
               - 'prisma/**'
               - 'public/**'
               - '.github/workflows/**'
+              - 'fly.toml'
+
   lint:
     name: ⬣ ESLint
     needs: [prepare]
