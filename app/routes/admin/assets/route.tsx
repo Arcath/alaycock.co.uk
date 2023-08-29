@@ -1,8 +1,6 @@
 import {
   type LoaderArgs,
   json,
-  type V2_MetaArgs,
-  redirect,
   unstable_parseMultipartFormData,
   unstable_composeUploadHandlers,
   unstable_createFileUploadHandler,
@@ -50,7 +48,7 @@ export const action = async ({request}: ActionArgs) => {
   return json({result: true, message: 'File Uploaded'})
 }
 
-export const meta = ({}: V2_MetaArgs<typeof loader>) => {
+export const meta = () => {
   return [{title: pageTitle('Assets', 'Admin')}]
 }
 

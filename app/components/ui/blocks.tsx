@@ -39,7 +39,11 @@ export const BlockButton = ({
       onAnimationComplete={() => setOpen(true)}
       exit={'exit'}
     >
-      <img src={image} className="absolute top-[-3rem] left-[-3rem] w-64 z-0" />
+      <img
+        src={image}
+        className="absolute top-[-3rem] left-[-3rem] w-64 z-0"
+        alt=""
+      />
       <span className="text-xl z-10 absolute top-[calc(50%-1.125rem)] right-2">
         {label}
       </span>

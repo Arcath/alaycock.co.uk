@@ -1,4 +1,4 @@
-import {type LoaderArgs, json, type V2_MetaArgs} from '@remix-run/node'
+import {type LoaderArgs, json} from '@remix-run/node'
 import {useLoaderData, useMatch, Outlet} from '@remix-run/react'
 
 import {requireLogin} from '~/lib/session.server'
@@ -17,7 +17,7 @@ export const loader = async ({request}: LoaderArgs) => {
   return json({pages})
 }
 
-export const meta = ({}: V2_MetaArgs<typeof loader>) => {
+export const meta = () => {
   return [{title: pageTitle('Pages', 'Admin')}]
 }
 

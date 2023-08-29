@@ -7,7 +7,11 @@ export const Profile = ({
 }) => {
   return (
     <div className={`bg-white rounded-xl shadow-xl p-4 ${className}`}>
-      <img src="/img/profile.jpg" className={`rounded-xl ${imageClasses}`} />
+      <img
+        src="/img/profile.jpg"
+        className={`rounded-xl ${imageClasses}`}
+        alt="Adam Laycock"
+      />
       <h1 className="text-2xl">Adam Laycock</h1>
       <h2>EdTech Network Manager</h2>
       <ul className="flex gap-2">

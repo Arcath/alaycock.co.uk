@@ -22,7 +22,7 @@ export const loader = async ({params}: LoaderArgs) => {
 
 export const meta = ({data}: V2_MetaArgs<typeof loader>) => {
   return [
-    {title: pageTitle(data?.post.title!)},
+    {title: pageTitle(data ? data.post.title : '')},
     {name: 'description', content: data?.post.lead}
   ]
 }

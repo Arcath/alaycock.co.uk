@@ -2,7 +2,6 @@ import {type LoaderArgs, json} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 
 import {requireLogin} from '~/lib/session.server'
-import {getPrisma} from '~/lib/prisma.server'
 import {getTags} from '~/lib/tags'
 
 export const loader = async ({request}: LoaderArgs) => {

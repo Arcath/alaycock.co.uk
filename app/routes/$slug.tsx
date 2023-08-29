@@ -15,7 +15,7 @@ export const loader = async ({params}: LoaderArgs) => {
 }
 
 export const meta = ({data}: V2_MetaArgs<typeof loader>) => {
-  return [{title: pageTitle(data?.page.title!)}]
+  return [{title: pageTitle(data ? data.page.title : '')}]
 }
 
 const Page = () => {

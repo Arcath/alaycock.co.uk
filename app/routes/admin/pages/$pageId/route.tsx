@@ -10,7 +10,7 @@ import {invariant} from '@arcath/utils'
 import {requireLogin} from '~/lib/session.server'
 import {forms} from '~/components/ui/form'
 import {getPrisma} from '~/lib/prisma.server'
-import {pageTitle, htmlDate} from '~/lib/utils'
+import {pageTitle} from '~/lib/utils'
 import {compileMDX} from '~/lib/mdx.server'
 import {StatusMessage} from '~/components/blocks/status-message'
 

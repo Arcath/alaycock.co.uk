@@ -1,10 +1,4 @@
-import {
-  type LoaderArgs,
-  json,
-  type V2_MetaArgs,
-  type ActionArgs,
-  redirect
-} from '@remix-run/node'
+import {type LoaderArgs, json, type ActionArgs, redirect} from '@remix-run/node'
 import {invariant} from '@arcath/utils'
 
 import {requireLogin} from '~/lib/session.server'
@@ -48,7 +42,7 @@ export const action = async ({request}: ActionArgs) => {
   return redirect(`/admin/pages/${page.id}`)
 }
 
-export const meta = ({}: V2_MetaArgs<typeof loader>) => {
+export const meta = () => {
   return [{title: pageTitle('New Page', 'Admin')}]
 }
 

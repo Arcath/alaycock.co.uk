@@ -1,9 +1,4 @@
-import {
-  type LoaderArgs,
-  json,
-  type ActionArgs,
-  type V2_MetaArgs
-} from '@remix-run/node'
+import {type LoaderArgs, json, type ActionArgs} from '@remix-run/node'
 import {useLoaderData, useActionData, useMatch, Outlet} from '@remix-run/react'
 import {invariant} from '@arcath/utils'
 
@@ -54,7 +49,7 @@ export const action = async ({request}: ActionArgs) => {
   return json({result: true, message: 'Password changed!'})
 }
 
-export const meta = ({}: V2_MetaArgs) => {
+export const meta = () => {
   return [{title: pageTitle('Admin')}]
 }
 

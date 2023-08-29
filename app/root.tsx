@@ -4,13 +4,12 @@ import {
   Links,
   LiveReload,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
   useLocation,
   useOutlet
 } from '@remix-run/react'
-import {AnimatePresence, delay, motion} from 'framer-motion'
+import {AnimatePresence, motion} from 'framer-motion'
 
 import stylesheet from '~/styles/index.css'
 
@@ -42,7 +41,7 @@ export default function App() {
         </header>
         <AnimatePresence mode="wait">
           <motion.div
-            key={useLocation().pathname}
+            key={pathname}
             variants={{
               initial: {opacity: 0, y: -1000},
               animate: {opacity: 1, y: 0},

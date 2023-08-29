@@ -6,6 +6,7 @@
     "deploy": "fly deploy --remote-only",
     "dev": "remix dev",
     "start": "remix-serve build",
+    "lint": "eslint --ext js,jsx,ts,tsx .",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -42,5 +43,16 @@
   },
   "engines": {
     "node": ">=14.0.0"
-  }
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "coverage",
+    "server-build",
+    "build",
+    "public/build",
+    "*.ignored/",
+    "*.ignored.*",
+    "remix.env.d.ts",
+    "docs"
+  ]
 }
