@@ -1,23 +1,41 @@
-# alaycock.co.uk
+# Welcome to Remix!
 
-My personal site built using [Remix](https://remix.run), deployed to
-[fly.io](https://fly.io), content and assets from
-[GraphCMS](https://graphcms.com/).
+- [Remix Docs](https://remix.run/docs)
 
-## Rolling your own
+## Fly Setup
 
-Clone the project on GraphCMS.
+1. [Install `flyctl`](https://fly.io/docs/getting-started/installing-flyctl/)
 
-[![Clone project](https://graphcms.com/button)](https://app.graphcms.com/clone/fc1c89ade43544f0a5f9e2a7455fa97e?name=alaycock.co.uk)
+2. Sign up and log in to Fly
 
-Create a `.env` file with the following keys:
-
-```
-API_TOKEN=
-API_URL=
-TWITTER_KEY=
-TWITTER_SECRET=
-TWITTER_BEARER=
+```sh
+flyctl auth signup
 ```
 
-Update `site-data.json` with your own details.
+3. Setup Fly. It might ask if you want to deploy, say no since you haven't built the app yet.
+
+```sh
+flyctl launch
+```
+
+## Development
+
+From your terminal:
+
+```sh
+npm run dev
+```
+
+This starts your app in development mode, rebuilding assets on file changes.
+
+## Deployment
+
+If you've followed the setup instructions already, all you need to do is run this:
+
+```sh
+npm run deploy
+```
+
+You can run `flyctl info` to get the url and ip address of your server.
+
+Check out the [fly docs](https://fly.io/docs/getting-started/node/) for more information.

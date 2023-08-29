@@ -1,5 +1,5 @@
 # base node image
-FROM node:16-bullseye-slim as base
+FROM node:20-bookworm-slim as base
 
 # Install openssl for Prisma
 RUN apt-get update && apt-get install -y openssl
@@ -45,6 +45,7 @@ RUN npm run build:info
 FROM base
 
 ENV NODE_ENV=production
+ENV DATABASE_URL=file:../data/db/prod.db
 
 RUN mkdir /app
 WORKDIR /app
@@ -54,5 +55,9 @@ COPY --from=production-deps /app/node_modules /app/node_modules
 COPY --from=build /app/build /app/build
 COPY --from=build /app/public /app/public
 ADD . .
+
+RUN mkdir -p /app/data
+RUN mkdir -p /app/data/assets
+RUN ln -s /app/public/assets /app/data/assets
 
 CMD ["npm", "run", "start"]

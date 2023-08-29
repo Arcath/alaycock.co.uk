@@ -9,95 +9,111 @@ env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
 jobs:
-  changes:
-    name: 🔎 Check for app changes
+  prepare:
+    name: 🎫 Prepare
     runs-on: ubuntu-latest
     outputs:
-      DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}
+      app: ${{ steps.filter.outputs.app }}
     steps:
-      - uses: actions/checkout@v2
-        name: 🔽 Checkout Repo
-        with:
-          fetch-depth: '50'
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16
-
-      - name: 🔎 Determine deployable changes
-        id: changes
-        run: >-
-          echo ::set-output name=DEPLOYABLE::$(node ./scripts/is-deployable.mjs
-          ${{ github.sha }})
-
-      - name: ❓ Deployable
-        run: >-
-          echo "DEPLOYABLE: ${{steps.changes.outputs.DEPLOYABLE}}"
-  lint:
-    name: ⬣ ESLint
-    needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: ⎔ Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
+
+      - name: 💾 Cache Node Modules
+        id: node-cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key:
+            node-modules-${{ hashFiles('package-lock.json',
+            'prisma/schema.prisma') }}
 
       - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: 🧭 Find Changes
+        uses: dorny/paths-filter@v2
+        id: filter
         with:
-          install-command: npm ci --force
+          filters: |
+            app:
+              - 'app/**'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'prisma/**'
+              - 'public/**'
+              - '.github/workflows/**'
+  lint:
+    name: ⬣ ESLint
+    needs: [prepare]
+    if: ${{ needs.prepare.outputs.app == 'true'}}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-lint
+      cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: 💾 Cache Node Modules
+        id: node-cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key:
+            node-modules-${{ hashFiles('package-lock.json',
+            'prisma/schema.prisma') }}
 
       - name: 🔬 Lint
         run: npm run lint
 
   typecheck:
     name: ʦ TypeScript
-    needs: [changes]
-    if: needs.changes.outputs.DEPLOYABLE == 'true'
+    needs: [prepare]
+    if: ${{ needs.prepare.outputs.app == 'true'}}
     runs-on: ubuntu-latest
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: ⎔ Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
+      - name: 💾 Cache Node Modules
+        id: node-cache
+        uses: actions/cache@v3
         with:
-          install-command: npm ci --force
+          path: node_modules
+          key:
+            node-modules-${{ hashFiles('package-lock.json',
+            'prisma/schema.prisma') }}
 
       - name: 🔎 Type check
         run: npm run typecheck
 
   build:
     name: 🐳 Build
-    needs: [changes]
+    needs: [lint, typecheck]
     if:
       ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' &&
-      needs.changes.outputs.DEPLOYABLE == 'true' }}
+      needs.prepare.outputs.app == 'true' }}
     runs-on: ubuntu-latest
     # only build/deploy master branch on pushes
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -141,16 +157,13 @@ jobs:
   deploy:
     name: 🚀 Deploy App
     runs-on: ubuntu-latest
-    needs: [changes, lint, typecheck, build]
+    needs: [prepare, lint, typecheck, build]
     if:
       ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' &&
-      needs.changes.outputs.DEPLOYABLE == 'true' }}
+      needs.prepare.outputs.app == 'true' }}
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: 🚀 Deploy
         uses: superfly/flyctl-actions@1.1
@@ -167,7 +180,7 @@ jobs:
     needs: [deploy]
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - uses: treosh/lighthouse-ci-action@v9
         name: 🧪 Lighthouse Tests

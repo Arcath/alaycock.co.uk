@@ -1,0 +1,54 @@
+{
+  "adminPage": {
+    "scope": "typescriptreact",
+    "prefix": "adminPage",
+    "body": [
+      "import {type LoaderArgs, json, type V2_MetaArgs} from '@remix-run/node'",
+      "",
+      "import {requireLogin} from '~/lib/session.server'",
+      "import {pageTitle} from '~/lib/utils'",
+      "",
+      "export const loader = async ({request}: LoaderArgs) => {",
+      "  await requireLogin(request)",
+      "",
+      "  return json({})",
+      "}",
+      "",
+      "export const meta = ({}: V2_MetaArgs<typeof loader>) => {",
+      "  return [{title: pageTitle('$1', 'Admin')}]",
+      "}",
+      "",
+      "const $2 = () => {",
+      " return <div>FOO</div>",
+      "}",
+      "",
+      "export default $2"
+    ]
+  },
+  "adminAction": {
+    "scope": "typescriptreact",
+    "prefix": "adminAction",
+    "body": [
+      "export const action = async ({request}: LoaderArgs) => {",
+      "  await requireLogin(request)",
+      "",
+      "  return json({})",
+      "}"
+    ]
+  },
+  "formInput": {
+    "scope": "typescriptreact",
+    "prefix": "formInput",
+    "body": [
+      "<forms.label>",
+      "<forms.details>$1</forms.details>",
+      "<forms.input type=\"$2\" name=\"$3\" />",
+      "</forms.label>"
+    ]
+  },
+  "formData": {
+    "scope": "typescriptreact",
+    "prefix": "formData",
+    "body": ["const $1 = formData.get('$1') as string | undefined"]
+  }
+}
