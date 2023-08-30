@@ -59,7 +59,17 @@ const AdminIndex = () => {
   const match = useMatch('/admin')
 
   if (match === null) {
-    return <Outlet />
+    return (
+      <div>
+        <Outlet />
+        <a
+          href="/admin/"
+          className="my-4 bg-white rounded shadow p-2 m-auto block w-64 text-center"
+        >
+          Admin
+        </a>
+      </div>
+    )
   }
 
   const PasswordMessage = () => {
