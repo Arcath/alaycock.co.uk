@@ -41,6 +41,7 @@ export default function Index() {
         label="Mastodon"
         target="https://mastodon.content.town/@arcath"
         image="/img/buttons/mastodon.svg"
+        rel="me"
       />
       <BlockButton
         delay={delay()}

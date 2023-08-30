@@ -5,12 +5,14 @@ export const BlockButton = ({
   delay,
   label,
   target,
-  image
+  image,
+  rel
 }: {
   delay: number
   label: string
   target: string
   image: string
+  rel?: string
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -38,6 +40,7 @@ export const BlockButton = ({
       whileHover={'hovering'}
       onAnimationComplete={() => setOpen(true)}
       exit={'exit'}
+      rel={rel}
     >
       <img
         src={image}
