@@ -5,5 +5,6 @@ node_modules
 /public/build
 /public/assets
 .env
+data/
 
 /prisma/*.db*

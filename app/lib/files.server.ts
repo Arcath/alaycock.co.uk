@@ -4,5 +4,5 @@ import path from 'path'
 const {readdir} = fs.promises
 
 export const filesInDir = async (dir: string) => {
-  return readdir(path.join(process.cwd(), dir))
+  return readdir(dir)
 }

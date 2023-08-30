@@ -9,18 +9,17 @@ import {
 } from '@remix-run/node'
 import {useLoaderData, useActionData} from '@remix-run/react'
 import {invariant} from '@arcath/utils'
-import path from 'path'
 
 import {requireLogin} from '~/lib/session.server'
 import {pageTitle} from '~/lib/utils'
 import {StatusMessage} from '~/components/blocks/status-message'
 import {forms} from '~/components/ui/form'
-import {filesInDir} from '~/lib/files.server'
+import {getAssets, getAssetsDir} from '~/lib/assets'
 
 export const loader = async ({request}: LoaderArgs) => {
   await requireLogin(request)
 
-  let files = await filesInDir(path.join('public', 'assets'))
+  const files = await getAssets()
 
   return json({files})
 }
@@ -28,10 +27,12 @@ export const loader = async ({request}: LoaderArgs) => {
 export const action = async ({request}: ActionArgs) => {
   await requireLogin(request)
 
+  const directory = getAssetsDir()
+
   const uploadHandler = unstable_composeUploadHandlers(
     unstable_createFileUploadHandler({
       maxPartSize: 5_000_000,
-      directory: 'public/assets/',
+      directory,
       file: ({filename}) => {
         return filename
       }
