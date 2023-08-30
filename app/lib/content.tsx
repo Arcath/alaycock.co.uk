@@ -121,6 +121,41 @@ export const components = {
       HTMLUListElement
     >
   ) => {
-    return <ul {...props} className="col-start-3 bg-white shadow-xl p-2" />
+    return (
+      <ul {...props} className="col-start-3 bg-white shadow-xl p-2 list-disc" />
+    )
+  },
+  ol: (
+    props: React.DetailedHTMLProps<
+      React.HTMLAttributes<HTMLOListElement>,
+      HTMLOListElement
+    >
+  ) => {
+    return (
+      <ol
+        {...props}
+        className="col-start-3 bg-white shadow-xl p-2 list-decimal"
+      />
+    )
+  },
+  li: (
+    props: React.DetailedHTMLProps<
+      React.HTMLAttributes<HTMLLIElement>,
+      HTMLLIElement
+    >
+  ) => {
+    return <li {...props} className="ml-6" />
+  },
+  blockquote: (
+    props: React.DetailedHTMLProps<
+      React.HTMLAttributes<HTMLQuoteElement>,
+      HTMLQuoteElement
+    >
+  ) => {
+    return (
+      <div className="col-start-3 bg-white p-4">
+        <blockquote {...props} className="quote-bg" />
+      </div>
+    )
   }
 }

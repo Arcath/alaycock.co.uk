@@ -10,14 +10,6 @@ export const loader = async ({params}: LoaderArgs) => {
 
   const tag = params['*']
 
-  let where = {}
-
-  if (tag) {
-    where = {
-      OR: [{tags: {contains: tag}}, {tags: {equals: tag}}]
-    }
-  }
-
   const posts = await prisma.post.findMany({
     select: {
       title: true,
@@ -29,7 +21,12 @@ export const loader = async ({params}: LoaderArgs) => {
       tags: true,
       image: true
     },
-    where,
+    where: {
+      AND: [
+        {draft: false},
+        tag !== '' ? {OR: [{tags: {contains: tag}}, {tags: {equals: tag}}]} : {}
+      ]
+    },
     orderBy: {date: 'desc'}
   })
 

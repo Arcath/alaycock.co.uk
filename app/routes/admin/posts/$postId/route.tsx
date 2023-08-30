@@ -51,7 +51,6 @@ export const action = async ({request, params}: ActionArgs) => {
   invariant(tags)
   invariant(source)
   invariant(lead)
-  invariant(image)
 
   const compiled = await compileMDX(source)
 
@@ -121,15 +120,23 @@ const AdminPostEdit = () => {
           </forms.label>
           <forms.label>
             <forms.details>Draft</forms.details>
-            <forms.input type="checkbox" name="draft" />
+            <forms.input
+              type="checkbox"
+              name="draft"
+              defaultChecked={post.draft}
+            />
           </forms.label>
           <forms.label>
             <forms.details>Featured</forms.details>
-            <forms.input type="checkbox" name="featured" />
+            <forms.input
+              type="checkbox"
+              name="featured"
+              defaultChecked={post.featured}
+            />
           </forms.label>
           <forms.label>
             <forms.details>Image URL</forms.details>
-            <forms.input type="text" name="image" />
+            <forms.input type="text" name="image" defaultValue={post.image} />
           </forms.label>
           <forms.label className="col-span-2">
             <forms.details>Lead</forms.details>

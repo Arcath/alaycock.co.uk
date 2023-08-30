@@ -48,7 +48,7 @@ export const action = async ({request}: ActionArgs) => {
       source,
       compiled,
       nextSource: source,
-      draft: false,
+      draft: true,
       featured: false
     }
   })

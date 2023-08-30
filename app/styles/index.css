@@ -22,3 +22,7 @@ a:visited {
 a:hover {
   @apply text-brand-light;
 }
+
+.quote-bg p {
+  @apply bg-brand-dark text-white;
+}
